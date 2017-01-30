@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Initial Commit
+    // Initial Commit - test #2
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
