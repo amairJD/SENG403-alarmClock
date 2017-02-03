@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * This Activity is responsible ONLY for receiving user data and sending it to AlarmListFragment
+ */
 public class AlarmSetActivity extends AppCompatActivity {
 
     /**
@@ -26,7 +29,7 @@ public class AlarmSetActivity extends AppCompatActivity {
     /**
      *
      * When the 'OK' button is pressed, this function is called.
-     * The fucntion is responsible for ensuring that the user's alarm settings are transferred to
+     * The function is responsible for ensuring that the user's alarm settings are transferred to
      * the AlarmListFragment successfully, where the interface for the new AlarmItem will be drawn
      *
      * @param view
