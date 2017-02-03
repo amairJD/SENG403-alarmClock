@@ -1,29 +1,33 @@
 package com.teamawesome.seng403_alarmclock;
 
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.TextView;
-
-import layout.AlarmFragment;
+import layout.AlarmItem;
+import layout.AlarmListFragment;
 import layout.ClockFragment;
 
 public class ClockActivity extends AppCompatActivity
-        implements ClockFragment.OnFragmentInteractionListener, AlarmFragment.OnFragmentInteractionListener {
+        implements ClockFragment.OnFragmentInteractionListener,
+                    AlarmListFragment.OnFragmentInteractionListener,
+                    AlarmItem.OnFragmentInteractionListener
+{
+
+    /**
+     * Whenever a new Alarm is created, this global int is assigned to it as a ID and the Alarm is
+     * now known as Alarm #(ID).
+     * numberOfAlarms is then incremented.
+     * This happens in AlarmListFragment, but is written here for reference.
+     */
+    public static int numberOfAlarms = 0;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -93,7 +97,7 @@ public class ClockActivity extends AppCompatActivity
             if (position == 0)
                 return new ClockFragment();
             else if (position == 1)
-                return new AlarmFragment();
+                return new AlarmListFragment();
             else
                return null;
         }

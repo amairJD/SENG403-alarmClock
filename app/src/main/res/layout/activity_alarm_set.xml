@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        tools:ignore="UselessParent">
+
+        <!-- **************************************************** -->
+        <!-- ALARM setting functionality should be placed in here -->
+        <!-- Any settings made, like time of alarm, should be stored
+             in the 'intent' located in AlarmSetActivity.okPressed.
+             The current EditText is in example of how it works.  -->
+
+        <Button
+            android:text="Ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/AS_okButton"
+            android:onClick="okPressed"
+            />
+
+        <Button
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AS_cancelButton"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="cancelPressed"
+
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:textColorHint="#85ffffff"
+            android:hint="TITLE"
+            android:ems="10"
+            android:id="@+id/testText"
+            android:layout_marginBottom="232dp"
+            android:layout_above="@+id/AS_okButton"
+            android:layout_alignEnd="@+id/AS_okButton"
+            android:layout_marginEnd="61dp" />
+
+
+        <!-- END here -->
+        <!-- **************************************************** -->
+
+
+    </RelativeLayout>
+</FrameLayout>
+

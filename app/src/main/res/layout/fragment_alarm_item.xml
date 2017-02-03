@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/colorPrimary"
+    tools:context="layout.AlarmItem"
+    android:id="@+id/alarmItemTemplate"
+    android:layout_margin="20dp"
+    >
+
+    <!-- **************************************************** -->
+    <!-- Add buttons and likewise to the alarm interface here -->
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/tempText"
+        android:text="WOOHOO I'M AN ALARM" />
+
+
+    <!-- Please do not add things beyond here -->
+    <!-- **************************************************** -->
+
+</RelativeLayout>
+
