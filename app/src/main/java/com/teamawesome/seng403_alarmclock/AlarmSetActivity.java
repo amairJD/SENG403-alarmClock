@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 /**
  * This Activity is responsible ONLY for receiving user data and sending it to AlarmListFragment
@@ -19,6 +20,9 @@ public class AlarmSetActivity extends AppCompatActivity {
      *          (or something similar)
      */
     final public static String TEMP_TAG = "TEMP_TAG";
+
+    final public static String ALARM_HOUR_TAG = "ALARM_HOUR_TAG";
+    final public static String ALARM_MINUTE_TAG = "ALARM_MINUTE_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +47,22 @@ public class AlarmSetActivity extends AppCompatActivity {
          *  - User has picked a value from the time picker
          *  - Store that value in a variable that will be used in the next step
          */
-        EditText testText = (EditText) findViewById(R.id.testText);
-        String txt = testText.getText().toString();
+//        EditText testText = (EditText) findViewById(R.id.testText);
+//
+//        String txt = testText.getText().toString();
+
+        TimePicker timePicker = (TimePicker) findViewById(R.id.AS_timePicker);
+
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
 
         /**
          * Store the variable inside the intent with it's corresponding TAG (see top of code).
          */
-        intent.putExtra(TEMP_TAG, txt);
+       // intent.putExtra(TEMP_TAG, txt);
+
+        intent.putExtra(ALARM_HOUR_TAG, hour);
+        intent.putExtra(ALARM_MINUTE_TAG, minute);
 
         /**
          * Return the intent. IGNORE this.

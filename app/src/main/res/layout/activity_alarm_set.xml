@@ -16,6 +16,12 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
         <!-- Any settings made, like time of alarm, should be stored
              in the 'intent' located in AlarmSetActivity.okPressed.
              The current EditText is in example of how it works.  -->
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:timePickerMode="clock"
+            android:id="@+id/AS_timePicker"
+            ></TimePicker>
 
         <Button
             android:text="Ok"
@@ -39,19 +45,19 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
 
             />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:textColor="#ffffff"
-            android:textColorHint="#85ffffff"
-            android:hint="TITLE"
-            android:ems="10"
-            android:id="@+id/testText"
-            android:layout_marginBottom="232dp"
-            android:layout_above="@+id/AS_okButton"
-            android:layout_alignEnd="@+id/AS_okButton"
-            android:layout_marginEnd="61dp" />
+        <!--<EditText-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:inputType="textPersonName"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textColorHint="#85ffffff"-->
+            <!--android:hint="TITLE"-->
+            <!--android:ems="10"-->
+            <!--android:id="@+id/testText"-->
+            <!--android:layout_marginBottom="232dp"-->
+            <!--android:layout_above="@+id/AS_okButton"-->
+            <!--android:layout_alignEnd="@+id/AS_okButton"-->
+            <!--android:layout_marginEnd="61dp" />-->
 
 
         <!-- END here -->

@@ -14,4 +14,14 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+
+    <TextClock
+        android:textColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40pt"
+        android:layout_gravity="center"
+        />
+
+
 </android.support.design.widget.CoordinatorLayout>

@@ -12,12 +12,15 @@
     <!-- Add buttons and likewise to the alarm interface here -->
 
 
-    <TextView
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@+id/tempText"
-        android:text="WOOHOO I'M AN ALARM" />
+        android:textSize="50sp"
+        android:id="@+id/AI_EditText"
+        android:text="12:47"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 
     <!-- Please do not add things beyond here -->
