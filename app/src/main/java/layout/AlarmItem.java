@@ -54,9 +54,9 @@ public class AlarmItem extends Fragment {
     }
 
     private void constructInterface(View v) {
-        TextView tempTXT = (TextView) v.findViewById(R.id.tempText);
-        String inText = getArguments().getString(AlarmSetActivity.TEMP_TAG) + alarmID;
-        tempTXT.setText(inText);
+//        TextView tempTXT = (TextView) v.findViewById(R.id.tempText);
+//        String inText = getArguments().getString(AlarmSetActivity.TEMP_TAG) + alarmID;
+//        tempTXT.setText(inText);
     }
 
     private void setID() {

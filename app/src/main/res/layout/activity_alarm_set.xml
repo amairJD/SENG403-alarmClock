@@ -16,12 +16,39 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
         <!-- Any settings made, like time of alarm, should be stored
              in the 'intent' located in AlarmSetActivity.okPressed.
              The current EditText is in example of how it works.  -->
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:timePickerMode="clock"
-            android:id="@+id/AS_timePicker"
-            ></TimePicker>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="50dp"
+                tools:ignore="UselessParent">
+
+                <!-- **************************************************** -->
+                <!-- ALARM setting functionality should be placed in here -->
+                <!-- Any settings made, like time of alarm, should be stored
+                     in the 'intent' located in AlarmSetActivity.okPressed.
+                     The current EditText is in example of how it works.  -->
+                <TimePicker
+                    android:id="@+id/AS_timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80pt"
+                    android:timePickerMode="spinner"
+                    android:layout_gravity="center"/>
+
+                <DatePicker
+                    android:id="@+id/AS_datePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:datePickerMode="spinner"
+                    android:calendarViewShown="false"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"/>
+
+
+            </LinearLayout>
+
+
 
         <Button
             android:text="Ok"
