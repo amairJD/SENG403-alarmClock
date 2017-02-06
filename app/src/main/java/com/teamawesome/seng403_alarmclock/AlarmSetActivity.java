@@ -3,6 +3,7 @@ package com.teamawesome.seng403_alarmclock;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
@@ -50,9 +51,6 @@ public class AlarmSetActivity extends AppCompatActivity {
          *  - User has picked a value from the time picker
          *  - Store that value in a variable that will be used in the next step
          */
-//        EditText testText = (EditText) findViewById(R.id.testText);
-//
-//        String txt = testText.getText().toString();
 
         TimePicker timePicker = (TimePicker) findViewById(R.id.AS_timePicker);
         DatePicker datePicker = (DatePicker) findViewById(R.id.AS_datePicker);
@@ -67,7 +65,6 @@ public class AlarmSetActivity extends AppCompatActivity {
         /**
          * Store the variable inside the intent with it's corresponding TAG (see top of code).
          */
-       // intent.putExtra(TEMP_TAG, txt);
 
         intent.putExtra(ALARM_HOUR_TAG, hour);
         intent.putExtra(ALARM_MINUTE_TAG, minute);

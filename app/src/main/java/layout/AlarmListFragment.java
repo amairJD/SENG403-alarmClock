@@ -23,6 +23,14 @@ import com.teamawesome.seng403_alarmclock.R;
 
 import static android.app.Activity.RESULT_OK;
 
+/***
+ *
+ * IGNORE mostly for now, unless you absolutely need to edit.
+ *
+ */
+
+
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the

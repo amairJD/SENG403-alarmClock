@@ -10,6 +10,14 @@ import android.view.ViewGroup;
 
 import com.teamawesome.seng403_alarmclock.R;
 
+
+/***
+ *
+ * IGNORE mostly for now, unless you absolutely need to edit.
+ *
+ */
+
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
