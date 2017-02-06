@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 /**
  * Created by Eric Matteucci on 2017-02-04.
+ *
+ * This class currently does not do anything seeing as there are no AlarmManagers yet being used
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
