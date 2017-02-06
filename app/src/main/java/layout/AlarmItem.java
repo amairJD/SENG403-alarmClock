@@ -28,7 +28,11 @@ import static android.app.Activity.RESULT_OK;
  */
 public class AlarmItem extends Fragment {
 
+    /** NOTE:
+     *  See note in setID() regarding alarmID's
+     */
     private int alarmID;
+
     private int alarmHour;
     private int alarmMin;
 
