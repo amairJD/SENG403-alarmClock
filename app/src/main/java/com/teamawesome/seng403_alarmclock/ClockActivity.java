@@ -37,6 +37,7 @@ public class ClockActivity extends AppCompatActivity
      * numberOfAlarms is then incremented.
      * This happens in AlarmListFragment, but is written here for reference.
      */
+    public static int alarmCounterForID = 0;
     public static int numberOfAlarms = 0;
 
     /**
