@@ -121,10 +121,12 @@ public class AlarmItem extends Fragment {
      * create will attempt to create an alarm of ID 2 - which is already in use.
      * Someone please volunteer to solve this problem :)
      *
+     * Update: Solved, but need to test once deleting alarms is implemented.
+     *
      * On initial creation, set's an available alarm ID and increments number of Alarms
      */
     private void setID() {
-        alarmID = ClockActivity.numberOfAlarms;
+        alarmID = ClockActivity.alarmCounterForID++;
         ClockActivity.numberOfAlarms++;
         Log.i("alrmID", "Alarm added, alarmID is: " + alarmID + ". numberOfAlarms has been incremented");
     }
