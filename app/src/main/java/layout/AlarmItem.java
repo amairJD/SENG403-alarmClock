@@ -2,6 +2,7 @@ package layout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import java.util.Date;
 
 import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
 import com.teamawesome.seng403_alarmclock.ClockActivity;
@@ -35,6 +38,9 @@ public class AlarmItem extends Fragment {
 
     private int alarmHour;
     private int alarmMin;
+    private int alarmYear;
+    private int alarmMonth;
+    private int alarmDay;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,16 +71,21 @@ public class AlarmItem extends Fragment {
          * Logic for any alarmItem buttons must be placed here instead of using onClick in XML.
          * See below for example.
          */
-        FloatingActionButton addAlarmButton =
-                (FloatingActionButton) view.findViewById(R.id.AI_settingsButton);
-        addAlarmButton.setOnClickListener(
-                new View.OnClickListener() {
-                   public void onClick(View v) {
-                       Intent intent = new Intent(getActivity(), AlarmSetActivity.class);
-                       startActivityForResult(intent, 1);
-                   }
-                }
-        );
+        FloatingActionButton settingsButton = (FloatingActionButton) view.findViewById(R.id.AI_settingsButton);
+        settingsButton.setOnClickListener( new View.OnClickListener() {
+           public void onClick(View v) {
+               Intent intent = new Intent(getActivity(), AlarmSetActivity.class);
+               startActivityForResult(intent, 1);
+           }
+        });
+
+        Switch switchButton = (Switch) view.findViewById(R.id.AI_switchButton);
+        switchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // cancel the alarm
+            }
+        });
 
 
         return view;
@@ -101,6 +112,9 @@ public class AlarmItem extends Fragment {
     private void updateAlarmInfo(){
         alarmHour = getArguments().getInt(AlarmSetActivity.ALARM_HOUR_TAG);
         alarmMin = getArguments().getInt(AlarmSetActivity.ALARM_MINUTE_TAG);
+        alarmYear = getArguments().getInt(AlarmSetActivity.ALARM_YEAR_TAG);
+        alarmMonth = getArguments().getInt(AlarmSetActivity.ALARM_MONTH_TAG);
+        alarmDay = getArguments().getInt(AlarmSetActivity.ALARM_DAY_TAG);
     }
 
     /**
@@ -111,7 +125,15 @@ public class AlarmItem extends Fragment {
      */
     private void constructAlarmInterface(View v) {
         TextView alarmTime = (TextView) v.findViewById(R.id.AI_TimeTextView);
-        alarmTime.setText(alarmHour + ":" + alarmMin);
+
+        if (alarmMin < 10)
+            alarmTime.setText(alarmHour + ":0" + alarmMin);
+        else
+            alarmTime.setText(alarmHour + ":" + alarmMin);
+
+
+        TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
+        alarmDate.setText(getFormattedDate());
     }
 
     /**
@@ -165,5 +187,41 @@ public class AlarmItem extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    private String getFormattedDate() {
+
+        String monthString;
+        switch (alarmMonth) {
+            case 0:  monthString = "January";
+                break;
+            case 1:  monthString = "February";
+                break;
+            case 2:  monthString = "March";
+                break;
+            case 3:  monthString = "April";
+                break;
+            case 4:  monthString = "May";
+                break;
+            case 5:  monthString = "June";
+                break;
+            case 6:  monthString = "July";
+                break;
+            case 7:  monthString = "August";
+                break;
+            case 8:  monthString = "September";
+                break;
+            case 9: monthString = "October";
+                break;
+            case 10: monthString = "November";
+                break;
+            case 11: monthString = "December";
+                break;
+            default: monthString = "Invalid month";
+                break;
+        }
+
+        return (monthString + " " + alarmDay + ", " + alarmYear);
+
     }
 }

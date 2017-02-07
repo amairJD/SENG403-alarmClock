@@ -34,7 +34,7 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
                     android:layout_width="wrap_content"
                     android:layout_height="80pt"
                     android:timePickerMode="spinner"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
 
                 <DatePicker
                     android:id="@+id/AS_datePicker"
