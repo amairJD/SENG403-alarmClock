@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -232,5 +234,11 @@ public class AlarmItem extends Fragment {
 
         return (monthString + " " + alarmDay + ", " + alarmYear);
 
+    }
+
+    private void soundAlarm(){
+        Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
+        r.play();
     }
 }
