@@ -1,5 +1,6 @@
 package com.teamawesome.seng403_alarmclock;
 
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import layout.AlarmItem;
 import layout.AlarmListFragment;
@@ -65,6 +67,7 @@ public class ClockActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
     }
 
