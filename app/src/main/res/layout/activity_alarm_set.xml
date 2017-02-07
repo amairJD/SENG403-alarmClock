@@ -24,11 +24,6 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
                 android:layout_marginTop="50dp"
                 tools:ignore="UselessParent">
 
-                <!-- **************************************************** -->
-                <!-- ALARM setting functionality should be placed in here -->
-                <!-- Any settings made, like time of alarm, should be stored
-                     in the 'intent' located in AlarmSetActivity.okPressed.
-                     The current EditText is in example of how it works.  -->
                 <TimePicker
                     android:id="@+id/AS_timePicker"
                     android:layout_width="wrap_content"
@@ -45,10 +40,7 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"/>
 
-
             </LinearLayout>
-
-
 
         <Button
             android:text="Ok"
@@ -69,22 +61,7 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:onClick="cancelPressed"
-
             />
-
-        <!--<EditText-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:inputType="textPersonName"-->
-            <!--android:textColor="#ffffff"-->
-            <!--android:textColorHint="#85ffffff"-->
-            <!--android:hint="TITLE"-->
-            <!--android:ems="10"-->
-            <!--android:id="@+id/testText"-->
-            <!--android:layout_marginBottom="232dp"-->
-            <!--android:layout_above="@+id/AS_okButton"-->
-            <!--android:layout_alignEnd="@+id/AS_okButton"-->
-            <!--android:layout_marginEnd="61dp" />-->
 
 
         <!-- END here -->

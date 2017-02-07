@@ -1,5 +1,6 @@
 package layout;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
@@ -13,9 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import java.util.Calendar;
 import java.util.Date;
 
 import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
@@ -80,13 +84,17 @@ public class AlarmItem extends Fragment {
         });
 
         Switch switchButton = (Switch) view.findViewById(R.id.AI_switchButton);
-        switchButton.setOnClickListener(new View.OnClickListener() {
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                // cancel the alarm
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    // turn alarm on
+                }
+                else {
+                    // turn alarm off
+                }
             }
         });
-
 
         return view;
     }
@@ -150,7 +158,6 @@ public class AlarmItem extends Fragment {
         ClockActivity.numberOfAlarms++;
         Log.i("alrmID", "Alarm added, alarmID is: " + alarmID + ". numberOfAlarms has been incremented");
     }
-
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
