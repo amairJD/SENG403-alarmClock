@@ -21,6 +21,10 @@
         <activity android:name=".AlarmSetActivity"
             android:theme="@style/Theme.Transparent">
         </activity>
+        <receiver
+            android:name="AlarmReceiver"
+            android:enabled="true" >
+        </receiver>
     </application>
 
 </manifest>

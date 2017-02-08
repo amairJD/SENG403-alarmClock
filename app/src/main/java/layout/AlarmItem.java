@@ -1,6 +1,9 @@
 package layout;
 
+
+import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
@@ -21,11 +24,13 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+
 import java.util.Calendar;
 import java.util.Date;
 
 import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
 import com.teamawesome.seng403_alarmclock.ClockActivity;
+import com.teamawesome.seng403_alarmclock.AlarmReceiver;
 import com.teamawesome.seng403_alarmclock.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -144,6 +149,17 @@ public class AlarmItem extends Fragment {
 
         TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
         alarmDate.setText(getFormattedDate());
+
+        //schedule alarm in alarm manager
+        Calendar alarmCal = Calendar.getInstance();
+        alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
+        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),
+                alarmID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);;
+
+        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),
+                pendingIntent);
     }
 
     /**
@@ -236,7 +252,13 @@ public class AlarmItem extends Fragment {
 
     }
 
-    private void soundAlarm(){
+
+    //can expand this later to add functionality. Currently unsure how to access this function through alarm reciever
+    private void ringAlarm(){
+        playAlarmSong();
+    }
+
+    private void playAlarmSong(){
         Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
         r.play();

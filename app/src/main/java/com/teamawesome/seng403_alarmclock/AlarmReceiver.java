@@ -19,6 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
+
         Toast.makeText(context, "Alarm Activated", Toast.LENGTH_LONG).show();
 
         // the intent should have the ringtone stored in it using a specific tag such as
