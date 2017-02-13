@@ -54,6 +54,7 @@ public class AlarmItem extends Fragment {
     private int alarmDay;
 
     private OnFragmentInteractionListener mListener;
+    private PendingIntent pendingIntent;
 
     public static AlarmItem newInstance(Intent data){
         AlarmItem alarmItem = new AlarmItem();
@@ -96,9 +97,16 @@ public class AlarmItem extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     // turn alarm on
+                    Calendar alarmCal = Calendar.getInstance();
+                    alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
+
+                    AlarmManager aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);;
+                    aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
                 }
                 else {
                     // turn alarm off
+                    AlarmManager aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
+                    aManager.cancel(pendingIntent);
                 }
             }
         });
@@ -151,15 +159,14 @@ public class AlarmItem extends Fragment {
         alarmDate.setText(getFormattedDate());
 
         //schedule alarm in alarm manager
-        Calendar alarmCal = Calendar.getInstance();
-        alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
+        //Calendar alarmCal = Calendar.getInstance();
+        //larmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),
+        pendingIntent = PendingIntent.getBroadcast(getActivity(),
                 alarmID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);;
+        //AlarmManager aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);;
 
-        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),
-                pendingIntent);
+        //aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
     }
 
     /**

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 /**
@@ -20,7 +21,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent)
     {
 
-        Toast.makeText(context, "Alarm Activated", Toast.LENGTH_LONG).show();
+        Toast.makeText(context.getApplicationContext(), "Alarm Activated", Toast.LENGTH_LONG).show();
+
+
 
         // the intent should have the ringtone stored in it using a specific tag such as
         // TAG_RINGTONE. This is a simple way to be able to have different ringtones for the
