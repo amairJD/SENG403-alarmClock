@@ -6,7 +6,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -53,6 +52,11 @@ public class AlarmItem extends Fragment {
     private int alarmMonth;
     private int alarmDay;
 
+    PendingIntent pendingIntent;
+    AlarmManager aManager;
+    Ringtone r;
+    Uri defaultAlarm;
+
     private OnFragmentInteractionListener mListener;
 
     public static AlarmItem newInstance(Intent data){
@@ -95,13 +99,24 @@ public class AlarmItem extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    // turn alarm on
+                    scheduleAlarm();
                 }
                 else {
-                    // turn alarm off
+
+                    aManager.cancel(pendingIntent);
+
+//                    if (r != null || r.isPlaying())
+//                        r.stop();
+
                 }
             }
         });
+
+        switchButton.setChecked(true);
+
+        defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
+
 
         return view;
     }
@@ -150,16 +165,8 @@ public class AlarmItem extends Fragment {
         TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
         alarmDate.setText(getFormattedDate());
 
-        //schedule alarm in alarm manager
-        Calendar alarmCal = Calendar.getInstance();
-        alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),
-                alarmID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);;
+        scheduleAlarm();
 
-        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),
-                pendingIntent);
     }
 
     /**
@@ -260,7 +267,21 @@ public class AlarmItem extends Fragment {
 
     private void playAlarmSong(){
         Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
         r.play();
+    }
+
+    private void scheduleAlarm() {
+
+        //schedule alarm in alarm manager
+        Calendar alarmCal = Calendar.getInstance();
+        alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
+        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(getActivity(),
+                alarmID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);;
+
+        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),
+                pendingIntent);
+
     }
 }

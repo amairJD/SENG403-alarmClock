@@ -26,12 +26,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         // TAG_RINGTONE. This is a simple way to be able to have different ringtones for the
         // alarms.
 
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alarmUri == null)
-        {
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        }
-        Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
-        ringtone.play();
+        AlarmCoordinator.getInstance().playRingtone(context);
     }
 }
