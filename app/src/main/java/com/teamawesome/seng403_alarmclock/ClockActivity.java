@@ -11,6 +11,9 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AnalogClock;
+import android.widget.Button;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import layout.AlarmItem;
@@ -19,17 +22,14 @@ import layout.ClockFragment;
 
 
 /***
- *
  * IGNORE mostly for now, unless you absolutely need to edit.
- *
  */
 
 
 public class ClockActivity extends AppCompatActivity
         implements ClockFragment.OnFragmentInteractionListener,
-                    AlarmListFragment.OnFragmentInteractionListener,
-                    AlarmItem.OnFragmentInteractionListener
-{
+        AlarmListFragment.OnFragmentInteractionListener,
+        AlarmItem.OnFragmentInteractionListener {
 
     /**
      * Whenever a new Alarm is created, this global int is assigned to it as a ID and the Alarm is
@@ -69,6 +69,8 @@ public class ClockActivity extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        //onClockTapListener();
+
 
     }
 
@@ -89,7 +91,7 @@ public class ClockActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        //onClockTapListener();
     }
 
     /**
@@ -106,13 +108,17 @@ public class ClockActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
 
-            if (position == 0)
+            if (position == 0) {
+                //onClockTapListener();
                 return new ClockFragment();
+            }
             else if (position == 1)
                 return new AlarmListFragment();
             else
-               return null;
+                return null;
         }
+
+        //onClockTapListener();
 
         @Override
         public int getCount() {
@@ -131,4 +137,50 @@ public class ClockActivity extends AppCompatActivity
             return null;
         }
     }
+
+
+    // Clock Fragment Fields
+
+    private static Button buttonSwitchClock;
+    private static TextClock digital;
+    private static AnalogClock analogue;
+
+
+    /**
+     * This method listens for an event to switch the clock from analogue to digital
+     * and vice versa.  (I intend to make it switch without a button by just tapping the
+     * clock widgets but for now I am just doing it with a button to test if it works
+     * Also, I don't know if you can even click widgets & update in a full page fragment... - Steve)
+     *
+     * NOTE: I CAN NOT FIGURE OUT WHERE TO PUT THE CALL TO THIS FUNCTION
+     *      -- In an activity it would go in onCreate(). But it just crashes the app if i do that.
+     *      -- Maybe it would go in onActivityCreated(Bundle)?? But I dont know..
+     *
+     */
+    public void onClockTapListener() {
+
+        // load/assign the items in the fragment view that will be manipulated
+        buttonSwitchClock = (Button) findViewById(R.id.buttonSwClID);
+        digital = (TextClock) findViewById(R.id.textClock);
+        analogue = (AnalogClock) findViewById(R.id.analogClock);
+
+        // set the action of the click
+        buttonSwitchClock.setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if (digital.getVisibility() == TextClock.GONE) {
+                            digital.setVisibility(TextClock.VISIBLE);
+                            analogue.setVisibility(AnalogClock.GONE);
+                        } else {
+                            digital.setVisibility(TextClock.GONE);
+                            analogue.setVisibility(AnalogClock.VISIBLE);
+                        }
+                    }
+                }
+        );
+    }
+
+
 }

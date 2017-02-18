@@ -25,12 +25,22 @@
             />
 
 
-
         <AnalogClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100sp"
-            />
+            android:id="@+id/analogClock"
+            android:layout_marginBottom="95dp"
+            android:layout_above="@+id/textClock"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Switch Clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="98dp"
+            android:id="@+id/buttonSwClID" />
 
 
     </RelativeLayout>
