@@ -27,5 +27,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         // alarms.
 
         AlarmCoordinator.getInstance().playRingtone(context);
+
     }
 }

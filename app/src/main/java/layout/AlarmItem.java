@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.Calendar;
@@ -104,9 +105,6 @@ public class AlarmItem extends Fragment {
                 else {
 
                     aManager.cancel(pendingIntent);
-
-//                    if (r != null || r.isPlaying())
-//                        r.stop();
 
                 }
             }
@@ -276,12 +274,9 @@ public class AlarmItem extends Fragment {
         Calendar alarmCal = Calendar.getInstance();
         alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(getActivity(),
-                alarmID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);;
-
-        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),
-                pendingIntent);
+        pendingIntent = PendingIntent.getBroadcast(getActivity(), alarmID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
+        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),pendingIntent);
 
     }
 }

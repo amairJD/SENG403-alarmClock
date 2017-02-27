@@ -21,6 +21,10 @@
         <activity android:name=".AlarmSetActivity"
             android:theme="@style/Theme.Transparent">
         </activity>
+        <activity android:name=".DismissActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"
+            android:label="Wake Up!">
+        </activity>
         <receiver
             android:name="AlarmReceiver"
             android:enabled="true" >

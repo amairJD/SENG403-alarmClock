@@ -3,6 +3,7 @@ package com.teamawesome.seng403_alarmclock;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -138,26 +139,12 @@ public class ClockActivity extends AppCompatActivity
 
     public void showAlert() {
 
-        AlertDialog.Builder bobTheBuilder = new AlertDialog.Builder(ClockActivity.this);
-        bobTheBuilder.setTitle("Alarm Activated");
-        bobTheBuilder.setMessage("Choose Dismiss or Snooze");
-        bobTheBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                AlarmCoordinator.getInstance().stopRingtone();
+        Intent myIntent = new Intent(this, DismissActivity.class);
+        startActivity(myIntent);
 
-                dialog.dismiss();
-            }
-        });
-
-            bobTheBuilder.setPositiveButton("Snooze", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-        bobTheBuilder.create().show();
     }
+
+
 
 
 }

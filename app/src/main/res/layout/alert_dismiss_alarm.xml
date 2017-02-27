@@ -1,10 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/alert_dismiss_alarm">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alarm Triggered!"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        android:textColor="#ffff"
+        android:fontFamily="serif"
+        android:layout_marginTop="100sp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Swipe to Dismiss"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textColor="#ffff"
+        android:fontFamily="serif"
+        android:layout_marginTop="40sp"/>
 
     <SeekBar
-        android:layout_width="100sp"
+        android:layout_width="300sp"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar" />
+        android:id="@+id/dismiss_seekBar"
+        android:layout_marginTop="20sp"
+        android:layout_gravity="center"
+        android:progressBackgroundTint="#ffff"
+        android:thumb="@drawable/thumb_tracker" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50sp"
+        android:layout_gravity="center"
+        android:text="Snooze"
+        android:fontFamily="serif"
+        android:id="@+id/snooze_button"/>
+
 </LinearLayout>

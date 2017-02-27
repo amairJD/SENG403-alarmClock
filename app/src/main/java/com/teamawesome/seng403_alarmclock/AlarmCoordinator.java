@@ -50,6 +50,16 @@ public class AlarmCoordinator {
 
     }
 
+    public void setSnooze() {
+
+
+
+
+
+
+    }
+
+
 
 
 
