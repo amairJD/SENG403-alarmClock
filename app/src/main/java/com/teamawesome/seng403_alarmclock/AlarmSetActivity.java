@@ -10,6 +10,7 @@ import android.widget.DatePicker;
 
 /**
  * This Activity is responsible ONLY for receiving user data and sending it to AlarmListFragment
+ * Created by: Amair Javaid
  */
 public class AlarmSetActivity extends AppCompatActivity {
 
@@ -73,7 +74,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         intent.putExtra(ALARM_YEAR_TAG, year);
 
         /**
-         * Return the intent. IGNORE this.
+         * Return the intent.
          */
         setResult(RESULT_OK, intent);
         finish();

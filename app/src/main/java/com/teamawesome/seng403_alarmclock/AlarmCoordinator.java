@@ -1,14 +1,19 @@
 package com.teamawesome.seng403_alarmclock;
 
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import layout.AlarmItem;
 
 /**
  * Created by Eric Matteucci on 2017-02-12.
@@ -30,7 +35,7 @@ public class AlarmCoordinator {
 
     public static AlarmCoordinator getInstance() { return instance; }
 
-    public void playRingtone(Context context) {
+    public void activateAlarm(String alarmTag, Context context) {
 
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null)
@@ -40,8 +45,7 @@ public class AlarmCoordinator {
         ringtone = RingtoneManager.getRingtone(context, alarmUri);
         ringtone.play();
 
-        clockActivity.showAlert();
-
+        clockActivity.showAlert(alarmTag);
     }
 
     public void stopRingtone() {
@@ -51,10 +55,6 @@ public class AlarmCoordinator {
     }
 
     public void setSnooze() {
-
-
-
-
 
 
     }
