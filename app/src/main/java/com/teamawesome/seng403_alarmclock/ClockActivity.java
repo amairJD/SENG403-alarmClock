@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -13,21 +14,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import layout.AlarmItem;
 import layout.AlarmListFragment;
 import layout.ClockFragment;
-
-
-/***
- *
- * IGNORE mostly for now, unless you absolutely need to edit.
- *
- */
-
 
 public class ClockActivity extends AppCompatActivity
         implements ClockFragment.OnFragmentInteractionListener,
@@ -137,12 +132,37 @@ public class ClockActivity extends AppCompatActivity
         }
     }
 
-    public void showAlert() {
-
+    public void showAlert(String alarmTag) {
         Intent myIntent = new Intent(this, DismissActivity.class);
-        startActivity(myIntent);
+        myIntent.putExtra("ALARM_TAG", alarmTag);
+        startActivityForResult(myIntent, 10);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10){
+            if(resultCode == RESULT_OK){
+                /**
+                 * Returning from DismissActivity after alarm was activated
+                 */
+                String alarmTag = data.getExtras().getString("ALARM_TAG");
+                int snoozeTime = data.getExtras().getInt("SNOOZE_TIME");
+
+                Fragment alarmFrag = getSupportFragmentManager().findFragmentByTag(alarmTag);
+
+                if (alarmFrag instanceof AlarmItem){
+                    AlarmItem currentAlarm = (AlarmItem)alarmFrag;
+                    if (snoozeTime != 0) currentAlarm.snoozeAlarm(snoozeTime);
+                }
+
+
+            }
+        }
 
     }
+
+
 
 
 

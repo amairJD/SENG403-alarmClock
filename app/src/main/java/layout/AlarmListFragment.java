@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
+import com.teamawesome.seng403_alarmclock.ClockActivity;
 import com.teamawesome.seng403_alarmclock.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -96,7 +97,6 @@ public class AlarmListFragment extends Fragment {
                 }
         }
         );
-        // Inflate the layout for this fragment
         return rootView;
     }
 
@@ -109,7 +109,11 @@ public class AlarmListFragment extends Fragment {
                 LinearLayout alarmList = (LinearLayout) getActivity().findViewById(R.id.alarmItemList);
                 FragmentManager fragManager = getFragmentManager();
                 FragmentTransaction fragTransaction = fragManager.beginTransaction();
-                fragTransaction.add(alarmList.getId(), AlarmItem);
+                String alarmTag = "" + ClockActivity.alarmCounterForID;
+                fragTransaction.add(alarmList.getId(), AlarmItem, alarmTag);
+                Log.i("alrmTAG", "New Alarm created. set Tag as: " + alarmTag);
+                ClockActivity.alarmCounterForID++;
+                ClockActivity.numberOfAlarms++;
                 fragTransaction.commit();
             }
         }

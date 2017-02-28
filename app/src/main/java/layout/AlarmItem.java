@@ -68,7 +68,7 @@ public class AlarmItem extends Fragment {
     }
 
     public AlarmItem(){
-        setID();
+
     }
 
     @Override
@@ -167,21 +167,20 @@ public class AlarmItem extends Fragment {
 
     }
 
-    /**
-     * NOTE: setID function needs to be rewritten, as problems will arise when alarms are removed.
-     * I.e Say you have 3 alarms. So each alarm has ID's 0,1,2. Say you delete alarm 0 and
-     * numberofAlarms is now 2. So now you have alarm ID's 1 and 2 being used. The next Alarm you
-     * create will attempt to create an alarm of ID 2 - which is already in use.
-     * Someone please volunteer to solve this problem :)
-     *
-     * Update: Solved, but need to test once deleting alarms is implemented.
-     *
-     * On initial creation, set's an available alarm ID and increments number of Alarms
-     */
-    private void setID() {
-        alarmID = ClockActivity.alarmCounterForID++;
-        ClockActivity.numberOfAlarms++;
-        Log.i("alrmID", "Alarm added, alarmID is: " + alarmID + ". numberOfAlarms has been incremented");
+    public void snoozeAlarm(int minutes){
+        if (alarmMin < (60-minutes)){
+            alarmMin += minutes;
+        }
+        else if (alarmHour < 23){
+            alarmHour++;
+            alarmMin = alarmMin + minutes - 60;
+        }
+        /**
+         * Note: their will be issues if tha alarm was set for exactly the end of the month or the year
+         * in that case, something like above should be implemented.
+         */
+
+        constructAlarmInterface(getView());
     }
 
     public void onButtonPressed(Uri uri) {
@@ -269,12 +268,13 @@ public class AlarmItem extends Fragment {
     }
 
     private void scheduleAlarm() {
-
         //schedule alarm in alarm manager
         Calendar alarmCal = Calendar.getInstance();
         alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(getActivity(), alarmID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        intent.putExtra("ALARM_TAG", getTag());
+        pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
+                intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
         aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),pendingIntent);
 

@@ -3,9 +3,6 @@ package com.teamawesome.seng403_alarmclock;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.widget.Toast;
 
 /**
@@ -16,9 +13,13 @@ import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+    String alarmTag;
+
+
     @Override
     public void onReceive(Context context, Intent intent)
     {
+        alarmTag = intent.getStringExtra("ALARM_TAG");
 
         Toast.makeText(context, "Alarm Activated", Toast.LENGTH_LONG).show();
 
@@ -26,7 +27,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // TAG_RINGTONE. This is a simple way to be able to have different ringtones for the
         // alarms.
 
-        AlarmCoordinator.getInstance().playRingtone(context);
+        AlarmCoordinator.getInstance().activateAlarm(alarmTag, context);
 
     }
 }
