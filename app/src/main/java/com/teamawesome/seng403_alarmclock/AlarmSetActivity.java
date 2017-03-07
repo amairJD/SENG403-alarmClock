@@ -28,6 +28,7 @@ public class AlarmSetActivity extends AppCompatActivity {
     final public static String ALARM_YEAR_TAG = "ALARM_YEAR_TAG";
     final public static String ALARM_MINUTE_TAG = "ALARM_MINUTE_TAG";
     final public static String ALARM_HOUR_TAG = "ALARM_HOUR_TAG";
+    final public static String ALARM_SECONDS_TAG = "ALARM_SECONDS_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
+        int seconds = 0;
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
         int year = datePicker.getYear();
@@ -69,6 +71,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         intent.putExtra(ALARM_HOUR_TAG, hour);
         intent.putExtra(ALARM_MINUTE_TAG, minute);
+        intent.putExtra(ALARM_SECONDS_TAG, seconds);
         intent.putExtra(ALARM_DAY_TAG, day);
         intent.putExtra(ALARM_MONTH_TAG, month);
         intent.putExtra(ALARM_YEAR_TAG, year);
