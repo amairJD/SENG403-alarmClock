@@ -34,13 +34,7 @@ public class DismissActivity extends AppCompatActivity {
         dismissBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress >= 90) {
-                    AlarmCoordinator.getInstance().stopRingtone();
-                    finish();
-                }
-                else {
-                    seekBar.setProgress(0);
-                }
+
             }
 
             @Override
@@ -50,7 +44,13 @@ public class DismissActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                if (seekBar.getProgress() >= 90) {
+                    AlarmCoordinator.getInstance().stopRingtone();
+                    finish();
+                }
+                else {
+                    seekBar.setProgress(0);
+                }
             }
         });
 

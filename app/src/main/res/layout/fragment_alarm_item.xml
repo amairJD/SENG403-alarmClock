@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="125dp"
     android:background="@color/colorPrimary"
     tools:context="layout.AlarmItem"
     android:id="@+id/alarmItemTemplate"
@@ -15,21 +15,34 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="35sp"
+        android:text="Buy Some Crack"
+        android:textColor="#FFFFFF"
+        android:fontFamily="serif"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginBottom="80sp"
+        android:id="@+id/AI_NameTextView"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="40sp"
+        android:textColor="#FFFFFF"
         android:id="@+id/AI_TimeTextView"
         android:text="12:47 am"
         android:gravity="center"
-        android:fontFamily="serif"
-        android:layout_marginBottom="20dp"/>
+        android:fontFamily="serif" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="13sp"
         android:id="@+id/AI_DateTextView"
+        android:textColor="#FFFFFF"
         android:text="Saturday Feb. 4, 2017"
         android:gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="serif" />
 
     <android.support.design.widget.FloatingActionButton

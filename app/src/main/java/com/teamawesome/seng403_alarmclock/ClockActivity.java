@@ -153,7 +153,10 @@ public class ClockActivity extends AppCompatActivity
 
                 if (alarmFrag instanceof AlarmItem){
                     AlarmItem currentAlarm = (AlarmItem)alarmFrag;
-                    if (snoozeTime != 0) currentAlarm.snoozeAlarm(snoozeTime);
+                    if (snoozeTime != 0)
+                        currentAlarm.snoozeAlarm(snoozeTime);
+                    else
+                        currentAlarm.switchOff();
                 }
 
 

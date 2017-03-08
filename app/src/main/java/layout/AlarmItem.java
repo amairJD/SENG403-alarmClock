@@ -46,6 +46,7 @@ public class AlarmItem extends Fragment {
      *  See note in setID() regarding alarmID's
      */
     private int alarmID;
+    private String alarmName;
 
     private int alarmHour;
     private int alarmMin;
@@ -57,6 +58,8 @@ public class AlarmItem extends Fragment {
     AlarmManager aManager;
     Ringtone r;
     Uri defaultAlarm;
+
+    private Switch switchButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -95,7 +98,7 @@ public class AlarmItem extends Fragment {
            }
         });
 
-        Switch switchButton = (Switch) view.findViewById(R.id.AI_switchButton);
+        switchButton = (Switch) view.findViewById(R.id.AI_switchButton);
         switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -104,7 +107,8 @@ public class AlarmItem extends Fragment {
                 }
                 else {
 
-                    aManager.cancel(pendingIntent);
+                    if (aManager != null)
+                        aManager.cancel(pendingIntent);
 
                 }
             }
@@ -143,6 +147,7 @@ public class AlarmItem extends Fragment {
         alarmYear = getArguments().getInt(AlarmSetActivity.ALARM_YEAR_TAG);
         alarmMonth = getArguments().getInt(AlarmSetActivity.ALARM_MONTH_TAG);
         alarmDay = getArguments().getInt(AlarmSetActivity.ALARM_DAY_TAG);
+
     }
 
     /**
@@ -163,6 +168,9 @@ public class AlarmItem extends Fragment {
         TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
         alarmDate.setText(getFormattedDate());
 
+        TextView alarmNameTextView = (TextView) v.findViewById(R.id.AI_NameTextView);
+        alarmNameTextView.setText(alarmName);
+
         scheduleAlarm();
 
     }
@@ -181,6 +189,10 @@ public class AlarmItem extends Fragment {
          */
 
         constructAlarmInterface(getView());
+    }
+
+    public void switchOff() {
+        switchButton.setChecked(false);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -257,20 +269,15 @@ public class AlarmItem extends Fragment {
     }
 
 
-    //can expand this later to add functionality. Currently unsure how to access this function through alarm reciever
-    private void ringAlarm(){
-        playAlarmSong();
-    }
-
-    private void playAlarmSong(){
-        Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        r.play();
-    }
-
     private void scheduleAlarm() {
         //schedule alarm in alarm manager
         Calendar alarmCal = Calendar.getInstance();
         alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
+
+        if (alarmCal.getTimeInMillis() < Calendar.getInstance().getTimeInMillis()) {
+            return;
+        }
+
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         intent.putExtra("ALARM_TAG", getTag());
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),

@@ -29,6 +29,7 @@ public class AlarmSetActivity extends AppCompatActivity {
     final public static String ALARM_MINUTE_TAG = "ALARM_MINUTE_TAG";
     final public static String ALARM_HOUR_TAG = "ALARM_HOUR_TAG";
     final public static String ALARM_SECONDS_TAG = "ALARM_SECONDS_TAG";
+    final public static String ALARM_NAME_TAG = "ALARM_NAME_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
