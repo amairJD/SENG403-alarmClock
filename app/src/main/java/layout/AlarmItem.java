@@ -52,6 +52,7 @@ public class AlarmItem extends Fragment {
     private int alarmYear;
     private int alarmMonth;
     private int alarmDay;
+    private Repeat alarmRepeat;
 
     PendingIntent pendingIntent;
     AlarmManager aManager;
@@ -100,7 +101,7 @@ public class AlarmItem extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    scheduleAlarm(Repeat.TEST_EVERY_MINUTE);
+                    scheduleAlarm(alarmRepeat);
                 }
                 else {
 
@@ -143,6 +144,7 @@ public class AlarmItem extends Fragment {
         alarmYear = getArguments().getInt(AlarmSetActivity.ALARM_YEAR_TAG);
         alarmMonth = getArguments().getInt(AlarmSetActivity.ALARM_MONTH_TAG);
         alarmDay = getArguments().getInt(AlarmSetActivity.ALARM_DAY_TAG);
+        alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
     }
 
     /**
@@ -163,7 +165,7 @@ public class AlarmItem extends Fragment {
         TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
         alarmDate.setText(getFormattedDate());
 
-        scheduleAlarm(Repeat.TEST_EVERY_MINUTE);
+        scheduleAlarm(alarmRepeat);
 
     }
 

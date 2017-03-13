@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
+
+import layout.AlarmItem;
 
 /**
  * This Activity is responsible ONLY for receiving user data and sending it to AlarmListFragment
@@ -29,6 +32,7 @@ public class AlarmSetActivity extends AppCompatActivity {
     final public static String ALARM_MINUTE_TAG = "ALARM_MINUTE_TAG";
     final public static String ALARM_HOUR_TAG = "ALARM_HOUR_TAG";
     final public static String ALARM_SECONDS_TAG = "ALARM_SECONDS_TAG";
+    final public static String ALARM_REPEAT_TAG = "ALARM_REPEAT_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,22 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         TimePicker timePicker = (TimePicker) findViewById(R.id.AS_timePicker);
         DatePicker datePicker = (DatePicker) findViewById(R.id.AS_datePicker);
+        Spinner spinner = (Spinner) findViewById(R.id.repeatSpinner);
+        String repeatString = (String) spinner.getSelectedItem();
+        AlarmItem.Repeat repeat;
+        switch(repeatString){
+            case "Never": repeat = AlarmItem.Repeat.NONE;
+                break;
+            case "Daily": repeat = AlarmItem.Repeat.DAILY;
+                break;
+            case "Weekly": repeat = AlarmItem.Repeat.WEEKLY;
+                break;
+            case "(TEST) Minutely": repeat = AlarmItem.Repeat.TEST_EVERY_MINUTE;
+                break;
+            default: repeat = AlarmItem.Repeat.NONE;
+                break;
+        }
+
 
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
@@ -75,6 +95,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         intent.putExtra(ALARM_DAY_TAG, day);
         intent.putExtra(ALARM_MONTH_TAG, month);
         intent.putExtra(ALARM_YEAR_TAG, year);
+        intent.putExtra(ALARM_REPEAT_TAG, repeat);
 
         /**
          * Return the intent.
