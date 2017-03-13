@@ -24,6 +24,8 @@ import layout.AlarmItem;
 import layout.AlarmListFragment;
 import layout.ClockFragment;
 
+//Amair Branch test
+
 public class ClockActivity extends AppCompatActivity
         implements ClockFragment.OnFragmentInteractionListener,
                     AlarmListFragment.OnFragmentInteractionListener,
