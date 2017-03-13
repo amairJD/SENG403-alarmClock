@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.net.Uri;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -20,17 +23,30 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import layout.AlarmItem;
 import layout.AlarmListFragment;
 import layout.ClockFragment;
-
-//Amair Branch test
 
 public class ClockActivity extends AppCompatActivity
         implements ClockFragment.OnFragmentInteractionListener,
                     AlarmListFragment.OnFragmentInteractionListener,
                     AlarmItem.OnFragmentInteractionListener
 {
+
+    public static String ALARMDATA_FILENAME = "ALARM_DATA";
 
     /**
      * Whenever a new Alarm is created, this global int is assigned to it as a ID and the Alarm is
@@ -72,7 +88,73 @@ public class ClockActivity extends AppCompatActivity
 
         AlarmCoordinator.getInstance().setActivity(this);
 
+        Log.i("CHKR", "starting file open...");
+
+        /*
+        List<AlarmItem> meh = null;
+        try {
+            FileInputStream fis = openFileInput(ALARMDATA_FILENAME);
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            int numRead;
+            byte[] b = new byte[16384];
+            while ((numRead = fis.read(b, 0, b.length)) != -1) {
+                Log.i("CHKR", "Reading bytes...");
+                buffer.write(b, 0, numRead);
+            }
+            buffer.flush();
+            byte[] b2 = buffer.toByteArray();
+            ByteArrayInputStream in = new ByteArrayInputStream(b2);
+            ObjectInputStream is = new ObjectInputStream(in);
+            meh = (ArrayList<AlarmItem>) is.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        /**
+         * Write previous alarms
+         */
+/*
+        if (meh != null) {
+            if (!meh.isEmpty()) {
+                Log.i("CHKR", "opened alarms...");
+                for (AlarmItem alarm : meh) {
+                    Log.i("CHKR", alarm.getTag());
+                }
+                Log.i("CHKR", "Done");
+
+            }
+        }
+*/
+
     }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        List<Fragment> allFrags = getSupportFragmentManager().getFragments();
+        List<AlarmItem> allAlarmItems = new ArrayList<>();
+
+        for (Fragment fragment : allFrags) {
+            if (fragment instanceof AlarmItem) {
+                AlarmItem currentAlarm = (AlarmItem) fragment;
+                allAlarmItems.add(currentAlarm);
+            }
+        }
+
+        SharedPreferences prefs = getSharedPreferences(ALARMDATA_FILENAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        for (AlarmItem alarm: allAlarmItems) {
+            Log.i("CHKR", alarm.getTag() + "storing in prefs:" + alarm.retrieveInfo());
+            editor.putString(alarm.getTag(), alarm.retrieveInfo());
+            editor.apply();
+        }
+
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

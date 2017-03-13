@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,7 +41,7 @@ import static android.app.Activity.RESULT_OK;
  * {@link AlarmItem.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class AlarmItem extends Fragment {
+public class AlarmItem extends Fragment implements Serializable{
 
     /** NOTE:
      *  See note in setID() regarding alarmID's
@@ -204,6 +205,15 @@ public class AlarmItem extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public String retrieveInfo() {
+        return "" + alarmHour + "/"
+                + alarmMin + "/"
+                + 0 + "/"
+                + alarmDay + "/"
+                + alarmMonth + "/"
+                + alarmYear + "/";
     }
 
     /**
