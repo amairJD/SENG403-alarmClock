@@ -100,7 +100,7 @@ public class AlarmItem extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    scheduleAlarm();
+                    scheduleAlarm(Repeat.TEST_EVERY_MINUTE);
                 }
                 else {
 
@@ -163,7 +163,7 @@ public class AlarmItem extends Fragment {
         TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
         alarmDate.setText(getFormattedDate());
 
-        scheduleAlarm();
+        scheduleAlarm(Repeat.TEST_EVERY_MINUTE);
 
     }
 
@@ -267,7 +267,11 @@ public class AlarmItem extends Fragment {
         r.play();
     }
 
-    private void scheduleAlarm() {
+    public enum Repeat {
+        NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE
+    }
+
+    private void scheduleAlarm(Repeat repeat) {
         //schedule alarm in alarm manager
         Calendar alarmCal = Calendar.getInstance();
         alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
@@ -276,7 +280,18 @@ public class AlarmItem extends Fragment {
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
-        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),pendingIntent);
+        switch(repeat) {
+            case NONE: aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
+                break;
+            case DAILY: aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);
+                break;
+            case WEEKLY: aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), 7 * 24 * 60 * 60 * 1000, pendingIntent);
+                break;
+            case TEST_EVERY_MINUTE: aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), 60 * 1000, pendingIntent);
+                break;
+            default: aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
+                break;
+        }
 
     }
 }
