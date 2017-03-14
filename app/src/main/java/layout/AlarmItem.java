@@ -185,7 +185,7 @@ public class AlarmItem extends Fragment {
                 break;
             case WEEKLY: alarmDate.setText("Every " + getFormattedDay());
                 break;
-            case TEST_EVERY_MINUTE: alarmDate.setText("Every Minute");
+            case TEST_EVERY_MINUTE: alarmDate.setText("(TEST) Every Minute");
                 break;
             default: alarmDate.setText(getFormattedDate());
                 break;
