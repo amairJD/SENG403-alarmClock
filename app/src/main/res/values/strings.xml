@@ -3,6 +3,14 @@
     <string name="title_activity_clock">ClockActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="repeat_prompt">Repeat Alarm?</string>
+
+    <string-array name="repeat_options">
+        <item>Never</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>(TEST) Minutely</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

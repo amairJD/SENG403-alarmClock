@@ -53,6 +53,7 @@ public class AlarmItem extends Fragment {
     private int alarmYear;
     private int alarmMonth;
     private int alarmDay;
+    private Repeat alarmRepeat;
 
     PendingIntent pendingIntent;
     AlarmManager aManager;
@@ -147,7 +148,11 @@ public class AlarmItem extends Fragment {
         alarmYear = getArguments().getInt(AlarmSetActivity.ALARM_YEAR_TAG);
         alarmMonth = getArguments().getInt(AlarmSetActivity.ALARM_MONTH_TAG);
         alarmDay = getArguments().getInt(AlarmSetActivity.ALARM_DAY_TAG);
+
         alarmName = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
+
+        alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
+
     }
 
     /**
@@ -271,6 +276,20 @@ public class AlarmItem extends Fragment {
     }
 
 
+    //can expand this later to add functionality. Currently unsure how to access this function through alarm reciever
+    private void ringAlarm(){
+        playAlarmSong();
+    }
+
+    private void playAlarmSong(){
+        Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        r.play();
+    }
+
+    public enum Repeat {
+        NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE
+    }
+
     private void scheduleAlarm() {
         //schedule alarm in alarm manager
         Calendar alarmCal = Calendar.getInstance();
@@ -286,7 +305,18 @@ public class AlarmItem extends Fragment {
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
-        aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(),pendingIntent);
+        switch(alarmRepeat) {
+            case NONE: aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
+                break;
+            case DAILY: aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);
+                break;
+            case WEEKLY: aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), 7 * 24 * 60 * 60 * 1000, pendingIntent);
+                break;
+            case TEST_EVERY_MINUTE: aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), 60 * 1000, pendingIntent);
+                break;
+            default: aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
+                break;
+        }
 
     }
 }
