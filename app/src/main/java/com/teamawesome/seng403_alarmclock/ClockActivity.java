@@ -216,9 +216,10 @@ public class ClockActivity extends AppCompatActivity
         }
     }
 
-    public void showAlert(String alarmTag) {
+    public void showAlert(String alarmTag, String alarmName) {
         Intent myIntent = new Intent(this, DismissActivity.class);
         myIntent.putExtra("ALARM_TAG", alarmTag);
+        myIntent.putExtra("ALARM_NAME", alarmName);
         startActivityForResult(myIntent, 10);
     }
 
@@ -237,7 +238,10 @@ public class ClockActivity extends AppCompatActivity
 
                 if (alarmFrag instanceof AlarmItem){
                     AlarmItem currentAlarm = (AlarmItem)alarmFrag;
-                    if (snoozeTime != 0) currentAlarm.snoozeAlarm(snoozeTime);
+                    if (snoozeTime != 0)
+                        currentAlarm.snoozeAlarm(snoozeTime);
+                    else
+                        currentAlarm.switchOff();
                 }
 
 

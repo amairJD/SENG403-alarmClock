@@ -35,7 +35,7 @@ public class AlarmCoordinator {
 
     public static AlarmCoordinator getInstance() { return instance; }
 
-    public void activateAlarm(String alarmTag, Context context) {
+    public void activateAlarm(String alarmTag, String alarmName, Context context) {
 
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null)
@@ -45,7 +45,7 @@ public class AlarmCoordinator {
         ringtone = RingtoneManager.getRingtone(context, alarmUri);
         ringtone.play();
 
-        clockActivity.showAlert(alarmTag);
+        clockActivity.showAlert(alarmTag, alarmName);
     }
 
     public void stopRingtone() {

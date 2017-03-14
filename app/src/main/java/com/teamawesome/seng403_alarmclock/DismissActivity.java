@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import layout.AlarmItem;
 
@@ -26,21 +29,19 @@ public class DismissActivity extends AppCompatActivity {
         setContentView(R.layout.alert_dismiss_alarm);
 
         alarmTag = getIntent().getStringExtra("ALARM_TAG");
+        String alarmName = getIntent().getStringExtra("ALARM_NAME");
         final Intent intent = new Intent();
         intent.putExtra("ALARM_TAG", alarmTag);
         intent.putExtra("SNOOZE_TIME", 0);
+
+        TextView textView = (TextView) findViewById(R.id.DA_nameTextView);
+        textView.setText(alarmName);
 
         SeekBar dismissBar = (SeekBar) findViewById(R.id.dismiss_seekBar);
         dismissBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress >= 90) {
-                    AlarmCoordinator.getInstance().stopRingtone();
-                    finish();
-                }
-                else {
-                    seekBar.setProgress(0);
-                }
+
             }
 
             @Override
@@ -50,7 +51,13 @@ public class DismissActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                if (seekBar.getProgress() >= 90) {
+                    AlarmCoordinator.getInstance().stopRingtone();
+                    finish();
+                }
+                else {
+                    seekBar.setProgress(0);
+                }
             }
         });
 

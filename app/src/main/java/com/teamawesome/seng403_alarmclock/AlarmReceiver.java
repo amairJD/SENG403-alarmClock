@@ -14,12 +14,14 @@ import android.widget.Toast;
 public class AlarmReceiver extends BroadcastReceiver {
 
     String alarmTag;
+    String alarmName;
 
 
     @Override
     public void onReceive(Context context, Intent intent)
     {
         alarmTag = intent.getStringExtra("ALARM_TAG");
+        alarmName = intent.getStringExtra("ALARM_NAME");
 
         Toast.makeText(context, "Alarm Activated", Toast.LENGTH_LONG).show();
 
@@ -27,7 +29,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // TAG_RINGTONE. This is a simple way to be able to have different ringtones for the
         // alarms.
 
-        AlarmCoordinator.getInstance().activateAlarm(alarmTag, context);
+        AlarmCoordinator.getInstance().activateAlarm(alarmTag, alarmName, context);
 
     }
 }
