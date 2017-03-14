@@ -59,7 +59,10 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
                     android:layout_height="wrap_content"
                     android:id="@+id/repeatSpinner"
                     android:entries="@array/repeat_options"
-                    android:prompt="@string/repeat_prompt" />
+                    android:prompt="@string/repeat_prompt"
+                    android:layout_marginBottom="80sp" />
+
+
 
             </LinearLayout>
         </ScrollView>

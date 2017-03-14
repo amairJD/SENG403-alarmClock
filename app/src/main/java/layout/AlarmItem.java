@@ -6,6 +6,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 
 
 import java.io.Serializable;
@@ -150,7 +152,9 @@ public class AlarmItem extends Fragment implements Serializable{
         alarmMonth = getArguments().getInt(AlarmSetActivity.ALARM_MONTH_TAG);
         alarmDay = getArguments().getInt(AlarmSetActivity.ALARM_DAY_TAG);
 
-        alarmName = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
+        String name = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
+        if (alarmName != null && !alarmName.isEmpty())
+            alarmName = name;
 
         alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
 
@@ -172,11 +176,25 @@ public class AlarmItem extends Fragment implements Serializable{
 
 
         TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
-        alarmDate.setText(getFormattedDate());
 
         TextView alarmNameTextView = (TextView) v.findViewById(R.id.AI_NameTextView);
 
-        if (!alarmName.equals(""))
+        switch(alarmRepeat) {
+            case NONE: alarmDate.setText(getFormattedDate());
+                break;
+            case DAILY: alarmDate.setText("Every Day");
+                break;
+            case WEEKLY: alarmDate.setText("Every " + getFormattedDay());
+                break;
+            case TEST_EVERY_MINUTE: alarmDate.setText("(TEST) Every Minute");
+                break;
+            default: alarmDate.setText(getFormattedDate());
+                break;
+        }
+
+
+
+        if (alarmName != null && !alarmName.isEmpty())
             alarmNameTextView.setText(alarmName);
 
         scheduleAlarm();
@@ -282,6 +300,38 @@ public class AlarmItem extends Fragment implements Serializable{
         }
 
         return (monthString + " " + alarmDay + ", " + alarmYear);
+
+    }
+
+    private String getFormattedDay() {
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(alarmYear, alarmMonth, alarmDay);
+
+        int weekDay = cal.get(Calendar.DAY_OF_WEEK);
+
+
+        String dayString;
+        switch (weekDay) {
+            case 1: dayString = "Sunday";
+                break;
+            case 2: dayString = "Monday";
+                break;
+            case 3: dayString = "Tuesday";
+                break;
+            case 4: dayString = "Wednesday";
+                break;
+            case 5: dayString = "Thursday";
+                break;
+            case 6: dayString = "Friday";
+                break;
+            case 7: dayString = "Saturday";
+                break;
+            default: dayString = "";
+                break;
+        }
+
+        return dayString;
 
     }
 
