@@ -113,6 +113,11 @@ public class AlarmListFragment extends Fragment {
             Log.i("CHKR", "failure" + ""+ClockActivity.alarmCounterForID);
         }
         while (alarmData != null){
+            /**
+             * NOTE: Issues may occur reagrding setting tags when we want to DELETE alarms,
+             * FIX LATER
+             */
+
             String[] parts = alarmData.split(" */ *");
             Log.i("CHKR", "recreation time");
 
@@ -123,6 +128,10 @@ public class AlarmListFragment extends Fragment {
             data.putExtra(AlarmSetActivity.ALARM_DAY_TAG, Integer.parseInt(parts[3]));
             data.putExtra(AlarmSetActivity.ALARM_MONTH_TAG, Integer.parseInt(parts[4]));
             data.putExtra(AlarmSetActivity.ALARM_YEAR_TAG, Integer.parseInt(parts[5]));
+            data.putExtra(AlarmSetActivity.ALARM_NAME_TAG, parts[6]);
+            data.putExtra(AlarmSetActivity.ALARM_REPEAT_TAG,
+                    AlarmItem.Repeat.fromInt(Integer.parseInt(parts[7])));
+            data.putExtra(AlarmSetActivity.ALARM_SWITCH_STATUS, Boolean.parseBoolean(parts[8]));
 
             Fragment AlarmItem = layout.AlarmItem.newInstance(data);
             LinearLayout alarmList = (LinearLayout) getActivity().findViewById(R.id.alarmItemList);
