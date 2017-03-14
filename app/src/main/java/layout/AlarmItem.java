@@ -101,7 +101,7 @@ public class AlarmItem extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    scheduleAlarm(alarmRepeat);
+                    scheduleAlarm();
                 }
                 else {
 
@@ -165,7 +165,7 @@ public class AlarmItem extends Fragment {
         TextView alarmDate = (TextView) v.findViewById(R.id.AI_DateTextView);
         alarmDate.setText(getFormattedDate());
 
-        scheduleAlarm(alarmRepeat);
+        scheduleAlarm();
 
     }
 
@@ -273,7 +273,7 @@ public class AlarmItem extends Fragment {
         NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE
     }
 
-    private void scheduleAlarm(Repeat repeat) {
+    private void scheduleAlarm() {
         //schedule alarm in alarm manager
         Calendar alarmCal = Calendar.getInstance();
         alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
@@ -282,7 +282,7 @@ public class AlarmItem extends Fragment {
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
-        switch(repeat) {
+        switch(alarmRepeat) {
             case NONE: aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
                 break;
             case DAILY: aManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);
