@@ -152,7 +152,7 @@ public class AlarmItem extends Fragment {
         alarmDay = getArguments().getInt(AlarmSetActivity.ALARM_DAY_TAG);
 
         String name = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
-        if (alarmName != null && !alarmName.isEmpty())
+        if (name != null && !name.isEmpty())
             alarmName = name;
 
         alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
