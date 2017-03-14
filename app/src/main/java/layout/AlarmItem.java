@@ -147,7 +147,7 @@ public class AlarmItem extends Fragment {
         alarmYear = getArguments().getInt(AlarmSetActivity.ALARM_YEAR_TAG);
         alarmMonth = getArguments().getInt(AlarmSetActivity.ALARM_MONTH_TAG);
         alarmDay = getArguments().getInt(AlarmSetActivity.ALARM_DAY_TAG);
-
+        alarmName = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
     }
 
     /**
@@ -169,7 +169,9 @@ public class AlarmItem extends Fragment {
         alarmDate.setText(getFormattedDate());
 
         TextView alarmNameTextView = (TextView) v.findViewById(R.id.AI_NameTextView);
-        alarmNameTextView.setText(alarmName);
+
+        if (!alarmName.equals(""))
+            alarmNameTextView.setText(alarmName);
 
         scheduleAlarm();
 
@@ -280,6 +282,7 @@ public class AlarmItem extends Fragment {
 
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         intent.putExtra("ALARM_TAG", getTag());
+        intent.putExtra("ALARM_NAME", alarmName);
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.DatePicker;
 
@@ -57,6 +58,9 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         TimePicker timePicker = (TimePicker) findViewById(R.id.AS_timePicker);
         DatePicker datePicker = (DatePicker) findViewById(R.id.AS_datePicker);
+        EditText editText = (EditText) findViewById(R.id.AS_nameEditText);
+
+        String alarmName = editText.getText().toString();
 
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
@@ -76,6 +80,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         intent.putExtra(ALARM_DAY_TAG, day);
         intent.putExtra(ALARM_MONTH_TAG, month);
         intent.putExtra(ALARM_YEAR_TAG, year);
+        intent.putExtra(ALARM_NAME_TAG, alarmName);
 
         /**
          * Return the intent.

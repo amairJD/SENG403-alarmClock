@@ -132,9 +132,10 @@ public class ClockActivity extends AppCompatActivity
         }
     }
 
-    public void showAlert(String alarmTag) {
+    public void showAlert(String alarmTag, String alarmName) {
         Intent myIntent = new Intent(this, DismissActivity.class);
         myIntent.putExtra("ALARM_TAG", alarmTag);
+        myIntent.putExtra("ALARM_NAME", alarmName);
         startActivityForResult(myIntent, 10);
     }
 

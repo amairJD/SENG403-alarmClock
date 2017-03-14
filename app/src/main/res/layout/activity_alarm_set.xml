@@ -17,12 +17,25 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
              in the 'intent' located in AlarmSetActivity.okPressed.
              The current EditText is in example of how it works.  -->
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="50dp"
-                tools:ignore="UselessParent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/alarmItemList"
+                >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="       Enter Alarm Name       "
+                    android:textColorHint="#FFFFFF"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30sp"
+                    android:id="@+id/AS_nameEditText"/>
 
                 <TimePicker
                     android:id="@+id/AS_timePicker"
@@ -38,9 +51,12 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
                     android:datePickerMode="spinner"
                     android:calendarViewShown="false"
                     android:layout_gravity="center"
-                    android:layout_marginStart="4dp"/>
+                    android:layout_marginStart="4dp" />
+
+
 
             </LinearLayout>
+        </ScrollView>
 
         <Button
             android:text="Ok"
@@ -62,7 +78,6 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
             android:layout_centerHorizontal="true"
             android:onClick="cancelPressed"
             />
-
 
         <!-- END here -->
         <!-- **************************************************** -->
