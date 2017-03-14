@@ -27,6 +27,7 @@ import android.widget.Toast;
 import android.graphics.Color;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -42,13 +43,12 @@ import static android.app.Activity.RESULT_OK;
  * {@link AlarmItem.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class AlarmItem extends Fragment {
+public class AlarmItem extends Fragment implements Serializable{
 
     /** NOTE:
      *  See note in setID() regarding alarmID's
      */
     private int alarmID;
-    private String alarmName;
 
     private int alarmHour;
     private int alarmMin;
@@ -56,6 +56,8 @@ public class AlarmItem extends Fragment {
     private int alarmMonth;
     private int alarmDay;
     private Repeat alarmRepeat;
+    private String alarmName;
+    private boolean switchStatus = true;
 
     PendingIntent pendingIntent;
     AlarmManager aManager;
@@ -107,17 +109,23 @@ public class AlarmItem extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     scheduleAlarm();
+                    switchStatus = true;
                 }
                 else {
 
                     if (aManager != null)
                         aManager.cancel(pendingIntent);
+                    switchStatus = false;
 
                 }
             }
         });
 
-        switchButton.setChecked(true);
+        if (!switchStatus){
+            switchButton.setChecked(false);
+        }
+        else
+            switchButton.setChecked(true);
 
         defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
@@ -157,6 +165,9 @@ public class AlarmItem extends Fragment {
 
         alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
 
+        if (!(getArguments().getBoolean(AlarmSetActivity.ALARM_SWITCH_STATUS))){
+            switchStatus = false;
+        }
     }
 
     /**
@@ -241,6 +252,18 @@ public class AlarmItem extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public String retrieveInfo() {
+        return "" + alarmHour + "/"
+                + alarmMin + "/"
+                + 0 + "/"
+                + alarmDay + "/"
+                + alarmMonth + "/"
+                + alarmYear + "/"
+                + alarmName + "/"
+                + Repeat.toInt(alarmRepeat) + "/"
+                + switchButton.isChecked();
     }
 
     /**
@@ -337,7 +360,37 @@ public class AlarmItem extends Fragment {
     }
 
     public enum Repeat {
-        NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE
+        NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE;
+
+        public static Repeat fromInt(int x) {
+            switch(x) {
+                case 0:
+                    return NONE;
+                case 1:
+                    return DAILY;
+                case 2:
+                    return WEEKLY;
+                case 3:
+                    return TEST_EVERY_MINUTE;
+            }
+            return null;
+        }
+
+        public static int toInt(Repeat repeat) {
+            switch(repeat) {
+                case NONE:
+                    return 0;
+                case DAILY:
+                    return 1;
+                case WEEKLY:
+                    return 2;
+                case TEST_EVERY_MINUTE:
+                    return 3;
+            }
+            return -1;
+        }
+
+
     }
 
     private void scheduleAlarm() {
