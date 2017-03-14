@@ -109,17 +109,13 @@ public class AlarmListFragment extends Fragment {
                 .getSharedPreferences(ClockActivity.ALARMDATA_FILENAME, Context.MODE_PRIVATE);
 
         String alarmData = prefs.getString(""+ClockActivity.alarmCounterForID, null);
-        if (alarmData == null){
-            Log.i("CHKR", "failure" + ""+ClockActivity.alarmCounterForID);
-        }
         while (alarmData != null){
             /**
-             * NOTE: Issues may occur reagrding setting tags when we want to DELETE alarms,
+             * NOTE: Issues may occur regarding setting tags when we want to DELETE alarms,
              * FIX LATER
              */
 
             String[] parts = alarmData.split(" */ *");
-            Log.i("CHKR", "recreation time");
 
             Intent data = new Intent();
             data.putExtra(AlarmSetActivity.ALARM_HOUR_TAG, Integer.parseInt(parts[0]));
@@ -139,7 +135,6 @@ public class AlarmListFragment extends Fragment {
             FragmentTransaction fragTransaction = fragManager.beginTransaction();
             String alarmTag = "" + ClockActivity.alarmCounterForID;
             fragTransaction.add(alarmList.getId(), AlarmItem, alarmTag);
-            Log.i("alrmTAG", "New Alarm created. set Tag as: " + alarmTag);
             ClockActivity.alarmCounterForID++;
             ClockActivity.numberOfAlarms++;
             fragTransaction.commit();
@@ -163,7 +158,6 @@ public class AlarmListFragment extends Fragment {
                 FragmentTransaction fragTransaction = fragManager.beginTransaction();
                 String alarmTag = "" + ClockActivity.alarmCounterForID;
                 fragTransaction.add(alarmList.getId(), AlarmItem, alarmTag);
-                Log.i("alrmTAG", "New Alarm created. set Tag as: " + alarmTag);
                 ClockActivity.alarmCounterForID++;
                 ClockActivity.numberOfAlarms++;
                 fragTransaction.commit();

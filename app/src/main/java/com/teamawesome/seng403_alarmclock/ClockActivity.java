@@ -88,45 +88,7 @@ public class ClockActivity extends AppCompatActivity
 
         AlarmCoordinator.getInstance().setActivity(this);
 
-        Log.i("CHKR", "starting file open...");
 
-        /*
-        List<AlarmItem> meh = null;
-        try {
-            FileInputStream fis = openFileInput(ALARMDATA_FILENAME);
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            int numRead;
-            byte[] b = new byte[16384];
-            while ((numRead = fis.read(b, 0, b.length)) != -1) {
-                Log.i("CHKR", "Reading bytes...");
-                buffer.write(b, 0, numRead);
-            }
-            buffer.flush();
-            byte[] b2 = buffer.toByteArray();
-            ByteArrayInputStream in = new ByteArrayInputStream(b2);
-            ObjectInputStream is = new ObjectInputStream(in);
-            meh = (ArrayList<AlarmItem>) is.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        /**
-         * Write previous alarms
-         */
-/*
-        if (meh != null) {
-            if (!meh.isEmpty()) {
-                Log.i("CHKR", "opened alarms...");
-                for (AlarmItem alarm : meh) {
-                    Log.i("CHKR", alarm.getTag());
-                }
-                Log.i("CHKR", "Done");
-
-            }
-        }
-*/
 
     }
 
@@ -143,15 +105,12 @@ public class ClockActivity extends AppCompatActivity
                 allAlarmItems.add(currentAlarm);
             }
         }
-
         SharedPreferences prefs = getSharedPreferences(ALARMDATA_FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         for (AlarmItem alarm: allAlarmItems) {
-            Log.i("CHKR", alarm.getTag() + "storing in prefs:" + alarm.retrieveInfo());
             editor.putString(alarm.getTag(), alarm.retrieveInfo());
             editor.apply();
         }
-
 
     }
 

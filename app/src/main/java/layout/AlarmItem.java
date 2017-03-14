@@ -122,7 +122,6 @@ public class AlarmItem extends Fragment implements Serializable{
         });
 
         if (!switchStatus){
-            Log.i("CHKR", "Setting switch to false");
             switchButton.setChecked(false);
         }
         else
@@ -166,9 +165,7 @@ public class AlarmItem extends Fragment implements Serializable{
 
         alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
 
-        Log.i("CHKR", "bboola is " + getArguments().getBoolean(AlarmSetActivity.ALARM_SWITCH_STATUS));
         if (!(getArguments().getBoolean(AlarmSetActivity.ALARM_SWITCH_STATUS))){
-            Log.i("CHKR", "Setting switchStatus to false");
             switchStatus = false;
         }
     }
