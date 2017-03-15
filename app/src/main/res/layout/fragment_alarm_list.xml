@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context="layout.AlarmListFragment"
     android:id="@+id/alarmFrame"
+
     >
 
     <RelativeLayout
