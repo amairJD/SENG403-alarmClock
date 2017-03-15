@@ -201,6 +201,10 @@ public class AlarmItem extends Fragment {
     }
 
     public void snoozeAlarm(int minutes){
+
+        int aMin = alarmMin;
+        int aHour = alarmHour;
+
         if (alarmMin < (60-minutes)){
             alarmMin += minutes;
         }
