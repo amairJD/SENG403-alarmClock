@@ -35,6 +35,8 @@ public class AlarmSetActivity extends AppCompatActivity {
     final public static String ALARM_SECONDS_TAG = "ALARM_SECONDS_TAG";
     final public static String ALARM_NAME_TAG = "ALARM_NAME_TAG";
     final public static String ALARM_REPEAT_TAG = "ALARM_REPEAT_TAG";
+    final public static String ALARM_SWITCH_STATUS = "ALARM_SWITCH_STAT_TAG";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         intent.putExtra(ALARM_YEAR_TAG, year);
         intent.putExtra(ALARM_NAME_TAG, alarmName);
         intent.putExtra(ALARM_REPEAT_TAG, repeat);
+        intent.putExtra(ALARM_SWITCH_STATUS, true);
 
         /**
          * Return the intent.

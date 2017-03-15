@@ -2,6 +2,7 @@ package layout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -97,7 +98,53 @@ public class AlarmListFragment extends Fragment {
                 }
         }
         );
+
         return rootView;
+    }
+
+
+    @Override
+    public void onResume(){
+        SharedPreferences prefs = getActivity()
+                .getSharedPreferences(ClockActivity.ALARMDATA_FILENAME, Context.MODE_PRIVATE);
+
+        String alarmData = prefs.getString(""+ClockActivity.alarmCounterForID, null);
+        while (alarmData != null){
+            /**
+             * NOTE: Issues may occur regarding setting tags when we want to DELETE alarms,
+             * FIX LATER
+             */
+
+            String[] parts = alarmData.split(" */ *");
+
+            Intent data = new Intent();
+            data.putExtra(AlarmSetActivity.ALARM_HOUR_TAG, Integer.parseInt(parts[0]));
+            data.putExtra(AlarmSetActivity.ALARM_MINUTE_TAG, Integer.parseInt(parts[1]));
+            data.putExtra(AlarmSetActivity.ALARM_SECONDS_TAG, Integer.parseInt(parts[2]));
+            data.putExtra(AlarmSetActivity.ALARM_DAY_TAG, Integer.parseInt(parts[3]));
+            data.putExtra(AlarmSetActivity.ALARM_MONTH_TAG, Integer.parseInt(parts[4]));
+            data.putExtra(AlarmSetActivity.ALARM_YEAR_TAG, Integer.parseInt(parts[5]));
+            data.putExtra(AlarmSetActivity.ALARM_NAME_TAG, parts[6]);
+            data.putExtra(AlarmSetActivity.ALARM_REPEAT_TAG,
+                    AlarmItem.Repeat.fromInt(Integer.parseInt(parts[7])));
+            data.putExtra(AlarmSetActivity.ALARM_SWITCH_STATUS, Boolean.parseBoolean(parts[8]));
+
+            Fragment AlarmItem = layout.AlarmItem.newInstance(data);
+            LinearLayout alarmList = (LinearLayout) getActivity().findViewById(R.id.alarmItemList);
+            FragmentManager fragManager = getFragmentManager();
+            FragmentTransaction fragTransaction = fragManager.beginTransaction();
+            String alarmTag = "" + ClockActivity.alarmCounterForID;
+            fragTransaction.add(alarmList.getId(), AlarmItem, alarmTag);
+            ClockActivity.alarmCounterForID++;
+            ClockActivity.numberOfAlarms++;
+            fragTransaction.commit();
+
+            alarmData = prefs.getString(""+ClockActivity.alarmCounterForID, null);
+        }
+
+
+
+        super.onResume();
     }
 
     @Override
@@ -111,7 +158,6 @@ public class AlarmListFragment extends Fragment {
                 FragmentTransaction fragTransaction = fragManager.beginTransaction();
                 String alarmTag = "" + ClockActivity.alarmCounterForID;
                 fragTransaction.add(alarmList.getId(), AlarmItem, alarmTag);
-                Log.i("alrmTAG", "New Alarm created. set Tag as: " + alarmTag);
                 ClockActivity.alarmCounterForID++;
                 ClockActivity.numberOfAlarms++;
                 fragTransaction.commit();

@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.net.Uri;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -20,6 +23,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import layout.AlarmItem;
 import layout.AlarmListFragment;
 import layout.ClockFragment;
@@ -29,6 +45,8 @@ public class ClockActivity extends AppCompatActivity
                     AlarmListFragment.OnFragmentInteractionListener,
                     AlarmItem.OnFragmentInteractionListener
 {
+
+    public static String ALARMDATA_FILENAME = "ALARM_DATA";
 
     /**
      * Whenever a new Alarm is created, this global int is assigned to it as a ID and the Alarm is
@@ -70,7 +88,32 @@ public class ClockActivity extends AppCompatActivity
 
         AlarmCoordinator.getInstance().setActivity(this);
 
+
+
     }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        List<Fragment> allFrags = getSupportFragmentManager().getFragments();
+        List<AlarmItem> allAlarmItems = new ArrayList<>();
+
+        for (Fragment fragment : allFrags) {
+            if (fragment instanceof AlarmItem) {
+                AlarmItem currentAlarm = (AlarmItem) fragment;
+                allAlarmItems.add(currentAlarm);
+            }
+        }
+        SharedPreferences prefs = getSharedPreferences(ALARMDATA_FILENAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        for (AlarmItem alarm: allAlarmItems) {
+            editor.putString(alarm.getTag(), alarm.retrieveInfo());
+            editor.apply();
+        }
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
