@@ -217,6 +217,6 @@ public class ClockActivity extends AppCompatActivity
 
     }
 
-
+// this should merge!!
 
 }
