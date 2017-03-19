@@ -60,6 +60,8 @@ public class ClockActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clock);
 
+        //onButtonClickListener();
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -68,8 +70,6 @@ public class ClockActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        //onClockTapListener();
 
 
     }
@@ -91,7 +91,6 @@ public class ClockActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        //onClockTapListener();
     }
 
     /**
@@ -118,7 +117,6 @@ public class ClockActivity extends AppCompatActivity
                 return null;
         }
 
-        //onClockTapListener();
 
         @Override
         public int getCount() {
@@ -139,48 +137,6 @@ public class ClockActivity extends AppCompatActivity
     }
 
 
-    // Clock Fragment Fields
-
-    private static Button buttonSwitchClock;
-    private static TextClock digital;
-    private static AnalogClock analogue;
-
-
-    /**
-     * This method listens for an event to switch the clock from analogue to digital
-     * and vice versa.  (I intend to make it switch without a button by just tapping the
-     * clock widgets but for now I am just doing it with a button to test if it works
-     * Also, I don't know if you can even click widgets & update in a full page fragment... - Steve)
-     *
-     * NOTE: I CAN NOT FIGURE OUT WHERE TO PUT THE CALL TO THIS FUNCTION
-     *      -- In an activity it would go in onCreate(). But it just crashes the app if i do that.
-     *      -- Maybe it would go in onActivityCreated(Bundle)?? But I dont know..
-     *
-     */
-    public void onClockTapListener() {
-
-        // load/assign the items in the fragment view that will be manipulated
-        buttonSwitchClock = (Button) findViewById(R.id.buttonSwClID);
-        digital = (TextClock) findViewById(R.id.textClock);
-        analogue = (AnalogClock) findViewById(R.id.analogClock);
-
-        // set the action of the click
-        buttonSwitchClock.setOnClickListener(
-                new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        if (digital.getVisibility() == TextClock.GONE) {
-                            digital.setVisibility(TextClock.VISIBLE);
-                            analogue.setVisibility(AnalogClock.GONE);
-                        } else {
-                            digital.setVisibility(TextClock.GONE);
-                            analogue.setVisibility(AnalogClock.VISIBLE);
-                        }
-                    }
-                }
-        );
-    }
 
 
 }
