@@ -34,6 +34,9 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <uses-permission android:name="android.permission.WRITE_SETTINGS"></uses-permission>
+        <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"></uses-permission>
+        <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"></uses-permission>
     </application>
 
 </manifest>

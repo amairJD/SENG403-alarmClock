@@ -61,7 +61,7 @@ public class AlarmItem extends Fragment implements Serializable{
 
     PendingIntent pendingIntent;
     AlarmManager aManager;
-    Ringtone r;
+    Ringtone ringtone;
     Uri defaultAlarm;
 
     private Switch switchButton;
@@ -162,6 +162,8 @@ public class AlarmItem extends Fragment implements Serializable{
         String name = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
         if (name != null && !name.isEmpty())
             alarmName = name;
+
+        //ringtone = getArguments().getParcelable(AlarmSetActivity.ALARM_RINGTONE_TAG);
 
         alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
 
@@ -355,8 +357,8 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     private void playAlarmSong(){
-        Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        r.play();
+        //Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        ringtone.play();
     }
 
     public enum Repeat {
