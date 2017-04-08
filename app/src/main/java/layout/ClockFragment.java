@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AnalogClock;
+import android.widget.Button;
+import android.widget.TextClock;
 
 import com.teamawesome.seng403_alarmclock.R;
 
@@ -16,6 +19,8 @@ import com.teamawesome.seng403_alarmclock.R;
  * IGNORE mostly for now, unless you absolutely need to edit.
  *
  */
+
+
 
 
 /**
@@ -31,6 +36,11 @@ public class ClockFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+
+    // Clock Fragment Fields - SC
+    private static TextClock digital;
+    private static AnalogClock analogue;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -73,7 +83,9 @@ public class ClockFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_clock, container, false);
+        View v = inflater.inflate(R.layout.fragment_clock, container, false);
+        onButtonClickListener(v);
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -114,4 +126,53 @@ public class ClockFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    /**
+     * This method listens for an event to switch the clock from analogue to digital
+     * and vice versa.  - SC)
+     */
+    public void onButtonClickListener(View v) {
+
+        // load/assign the items in the fragment view that will be manipulated
+        digital = (TextClock) v.findViewById(R.id.textClock);
+        analogue = (AnalogClock) v.findViewById(R.id.analogClock);
+
+
+        // When you Click on the DIGITAL Clock Face this is what happens:
+        digital.setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if (digital.getVisibility() == TextClock.VISIBLE) {
+                            digital.setVisibility(TextClock.GONE);
+                            analogue.setVisibility(AnalogClock.VISIBLE);
+                        } else {
+                            digital.setVisibility(TextClock.VISIBLE);
+                            analogue.setVisibility(AnalogClock.GONE);
+                        }
+                    }
+                }
+        ); // end of digital on click
+
+
+        // When you Click on the ANALOG Clock Face this is what happens:
+        analogue.setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if (digital.getVisibility() == TextClock.VISIBLE) {
+                            digital.setVisibility(TextClock.GONE);
+                            analogue.setVisibility(AnalogClock.VISIBLE);
+                        } else {
+                            digital.setVisibility(TextClock.VISIBLE);
+                            analogue.setVisibility(AnalogClock.GONE);
+                        }
+                    }
+                }
+        ); //end of analog clock on click
+
+    }
+
 }

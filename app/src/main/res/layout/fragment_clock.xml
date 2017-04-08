@@ -16,21 +16,20 @@
             android:textColor="#FFFFFF"
             android:textSize="60dp"
             android:fontFamily="serif"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
             android:gravity="center"
-            android:layout_marginBottom="222dp"
             android:id="@+id/textClock"
-            />
-
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="123dp" />
 
 
         <AnalogClock
+            android:id="@+id/analogClock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100sp"
-            />
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="123dp"/>
 
 
     </RelativeLayout>
