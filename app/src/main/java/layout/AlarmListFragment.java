@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -88,8 +89,8 @@ public class AlarmListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_alarm_list, container, false);
-        FloatingActionButton addAlarmButton =
-                (FloatingActionButton) rootView.findViewById(R.id.addAlarmButton);
+        Button addAlarmButton =
+                (Button) rootView.findViewById(R.id.addAlarmButton);
         addAlarmButton.setOnClickListener( new View.OnClickListener() {
                 public void onClick(View v) {
                     Log.i("TEST", "FAB_pressed");

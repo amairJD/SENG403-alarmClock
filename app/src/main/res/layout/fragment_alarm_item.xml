@@ -3,59 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="125dp"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/shadow_top"
     tools:context="layout.AlarmItem"
     android:id="@+id/alarmItemTemplate"
-    android:layout_margin="20dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="10dp"
     >
 
     <!-- **************************************************** -->
     <!-- Add buttons and likewise to the alarm interface here -->
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="New Alarm"
-        android:textColor="#FFFFFF"
-        android:fontFamily="serif"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_marginBottom="80sp"
-        android:id="@+id/AI_NameTextView"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="40sp"
-        android:textColor="#FFFFFF"
-        android:id="@+id/AI_TimeTextView"
-        android:text="12:47 am"
-        android:gravity="center"
-        android:fontFamily="serif" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="13sp"
-        android:id="@+id/AI_DateTextView"
-        android:textColor="#FFFFFF"
-        android:text="Saturday Feb. 4, 2017"
-        android:gravity="center"
-        android:layout_marginTop="80dp"
-        android:fontFamily="serif" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_edit"
-        android:layout_marginStart="22dp"
-        android:id="@+id/AI_settingsButton"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        />
 
     <Switch
         android:layout_width="70sp"
@@ -64,6 +22,67 @@
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="25dp"
+        android:id="@+id/AI_settingsButton"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        app:srcCompat="?attr/dividerHorizontal"
+        android:id="@+id/imageView"
+        android:layout_alignTop="@+id/AI_DateTextView"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:textColor="#FFFFFF"
+        android:background="#00ffffff"
+        android:id="@+id/AI_TimeTextView"
+        android:text="12:47 am"
+        android:gravity="left|center"
+        android:fontFamily="sans-serif"
+        android:layout_alignTop="@+id/AI_settingsButton"
+        android:layout_toEndOf="@+id/AI_settingsButton" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="13sp"
+        android:id="@+id/AI_DateTextView"
+        android:textColor="#FFFFFF"
+        android:text="Saturday Feb. 4, 2017"
+        android:gravity="left|center"
+        android:fontFamily="sans-serif"
+        android:layout_below="@+id/AI_TimeTextView"
+        android:layout_toEndOf="@+id/AI_settingsButton"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="New Alarm"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
+        android:gravity="left|center"
+        android:id="@+id/AI_NameTextView"
+        android:layout_above="@+id/AI_TimeTextView"
+        android:layout_toEndOf="@+id/AI_settingsButton"
+
+        />
 
 
     <!-- Please do not add things beyond here -->
