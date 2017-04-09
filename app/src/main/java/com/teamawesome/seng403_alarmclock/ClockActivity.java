@@ -21,6 +21,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.AnalogClock;
+import android.widget.Button;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import java.io.ByteArrayInputStream;
@@ -40,11 +43,16 @@ import layout.AlarmItem;
 import layout.AlarmListFragment;
 import layout.ClockFragment;
 
+
+/***
+ * IGNORE mostly for now, unless you absolutely need to edit.
+ */
+
+
 public class ClockActivity extends AppCompatActivity
         implements ClockFragment.OnFragmentInteractionListener,
-                    AlarmListFragment.OnFragmentInteractionListener,
-                    AlarmItem.OnFragmentInteractionListener
-{
+        AlarmListFragment.OnFragmentInteractionListener,
+        AlarmItem.OnFragmentInteractionListener {
 
     public static String ALARMDATA_FILENAME = "ALARM_DATA";
 
@@ -132,7 +140,6 @@ public class ClockActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
 
     /**
@@ -154,8 +161,9 @@ public class ClockActivity extends AppCompatActivity
             else if (position == 1)
                 return new AlarmListFragment();
             else
-               return null;
+                return null;
         }
+
 
         @Override
         public int getCount() {
@@ -209,9 +217,6 @@ public class ClockActivity extends AppCompatActivity
 
     }
 
-
-
-
-
+// this should merge!!
 
 }
