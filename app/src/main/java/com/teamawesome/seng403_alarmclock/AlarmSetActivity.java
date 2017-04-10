@@ -17,6 +17,8 @@ import layout.AlarmItem;
 /**
  * This Activity is responsible ONLY for receiving user data and sending it to AlarmListFragment
  * Created by: Amair Javaid
+ *
+ * Handles the gathering of data needed to set the alarm from the user
  */
 public class AlarmSetActivity extends AppCompatActivity {
 
@@ -27,6 +29,7 @@ public class AlarmSetActivity extends AppCompatActivity {
      *  - user has entered MEGA_ALARM as their alarm name
      *  - You must create a final public static String called "ALARM_NAME_TAG"
      *          (or something similar)
+     * These tags are used to pass user data back to the alarm
      */
     final public static String TEMP_TAG = "TEMP_TAG";
 
@@ -98,7 +101,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         int year = datePicker.getYear();
 
 
-        //test for ringtone change
+        //Gets chosen ringtone or a default ringtone if no ringtone was chosen
         Uri currentRingtone = returnIntent.getParcelableExtra(ALARM_RINGTONE_TAG);
         if (currentRingtone == null)
         {
@@ -129,10 +132,12 @@ public class AlarmSetActivity extends AppCompatActivity {
         finish();
     }
 
+    //user cancled activity with the cancel button
     public void cancelPressed(View view) {
        finish();
     }
 
+    //creates an activity which allows the user to choose a ringtone fro the alarm
     public void chooseRingtonePressed(View view)
     {
 
@@ -147,10 +152,12 @@ public class AlarmSetActivity extends AppCompatActivity {
     }
 
     @Override
+    //retrieves data from a caled activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (resultCode == RESULT_OK)
         {
+            //ringtone choice activity
             if (requestCode ==1)
             {
                 returnIntent.putExtra(ALARM_RINGTONE_TAG, data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI));

@@ -19,6 +19,7 @@ import layout.AlarmItem;
  * Created by Eric Matteucci on 2017-02-12.
  */
 
+//a class for helping to coordinate data between the various alarm actiities
 public class AlarmCoordinator {
 
     private Map ringtoneMap = new HashMap<Integer, Ringtone>();
@@ -35,8 +36,10 @@ public class AlarmCoordinator {
 
     public static AlarmCoordinator getInstance() { return instance; }
 
+    //this activity is responsible for activating the alarm based on the data passed to it from alarm reciever
     public void activateAlarm(String alarmTag, String alarmName, Uri alarmRingtone, Context context) {
 
+        //plays the specified ringtone, or a default one if none is specified)
         Uri alarmUri = alarmRingtone;
         if (alarmUri == null)
         {
@@ -45,15 +48,18 @@ public class AlarmCoordinator {
         ringtone = RingtoneManager.getRingtone(context, alarmUri);
         ringtone.play();
 
+        //this will show a popup for the alarm to be snoozed/dismissed
         clockActivity.showAlert(alarmTag, alarmName);
     }
 
+    //stops the alarm ringtone from playing anymore
     public void stopRingtone() {
 
         ringtone.stop();
 
     }
 
+    //this method would be for choosing a snooze period before snoozing
     public void setSnooze() {
 
 

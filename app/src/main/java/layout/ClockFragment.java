@@ -30,6 +30,8 @@ import com.teamawesome.seng403_alarmclock.R;
  * to handle interaction events.
  * Use the {@link ClockFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * Displays the current time in digital or analogue format
  */
 public class ClockFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

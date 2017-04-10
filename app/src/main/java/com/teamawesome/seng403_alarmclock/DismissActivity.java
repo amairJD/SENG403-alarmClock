@@ -18,27 +18,34 @@ import layout.AlarmItem;
  * Created by Eric Matteucci on 2017-02-27.
  */
 
+//activity for showng the alarm dismiss/cancel popup
 public class DismissActivity extends AppCompatActivity {
 
     String alarmTag;
     final int snoozeTime = 1;
 
     @Override
+    //when the dialogue is created
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_dismiss_alarm);
 
+        //readstore important variables
         alarmTag = getIntent().getStringExtra("ALARM_TAG");
         String alarmName = getIntent().getStringExtra("ALARM_NAME");
         final Intent intent = new Intent();
         intent.putExtra("ALARM_TAG", alarmTag);
         intent.putExtra("SNOOZE_TIME", 0);
 
+        //display alarm name
         TextView textView = (TextView) findViewById(R.id.DA_nameTextView);
         textView.setText(alarmName);
 
+
+        //display dismiss bar
         SeekBar dismissBar = (SeekBar) findViewById(R.id.dismiss_seekBar);
         dismissBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            //methods for the dismiss bar
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
@@ -61,8 +68,10 @@ public class DismissActivity extends AppCompatActivity {
             }
         });
 
+        //display snooze button
         Button snoozeButton = (Button) findViewById(R.id.snooze_button);
 
+        //what happens when snooze is pressed
         snoozeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

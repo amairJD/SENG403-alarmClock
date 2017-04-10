@@ -183,6 +183,7 @@ public class ClockActivity extends AppCompatActivity
         }
     }
 
+    //shows alarm cancel/dismiss dialogue popup
     public void showAlert(String alarmTag, String alarmName) {
         Intent myIntent = new Intent(this, DismissActivity.class);
         myIntent.putExtra("ALARM_TAG", alarmTag);
@@ -191,6 +192,7 @@ public class ClockActivity extends AppCompatActivity
     }
 
     @Override
+    //retrieves data from a called activity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10){

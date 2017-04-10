@@ -43,6 +43,8 @@ import static android.app.Activity.RESULT_OK;
  * Activities that contain this fragment must implement the
  * {@link AlarmItem.OnFragmentInteractionListener} interface
  * to handle interaction events.
+ *
+ * This class represents one alarm within the system and is created as a fragment whenever a new alarm is created
  */
 public class AlarmItem extends Fragment implements Serializable{
 
@@ -63,12 +65,12 @@ public class AlarmItem extends Fragment implements Serializable{
     PendingIntent pendingIntent;
     AlarmManager aManager;
     Uri ringtone;
-    Uri defaultAlarm;
 
     private Switch switchButton;
 
     private OnFragmentInteractionListener mListener;
 
+    //creating a new alarm item
     public static AlarmItem newInstance(Intent data){
         AlarmItem alarmItem = new AlarmItem();
         Bundle args = data.getExtras();
@@ -86,6 +88,7 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     @Override
+    // logic for the e visible reresentation of the alarm item (switches, buttons, etc.)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm_item, container, false);
@@ -96,6 +99,8 @@ public class AlarmItem extends Fragment implements Serializable{
          * Logic for any alarmItem buttons must be placed here instead of using onClick in XML.
          * See below for example.
          */
+
+        // Edit/settings button logic
         FloatingActionButton settingsButton = (FloatingActionButton) view.findViewById(R.id.AI_settingsButton);
         settingsButton.setOnClickListener( new View.OnClickListener() {
            public void onClick(View v) {
@@ -104,6 +109,7 @@ public class AlarmItem extends Fragment implements Serializable{
            }
         });
 
+        // Alarm enable/disable switch
         switchButton = (Switch) view.findViewById(R.id.AI_switchButton);
         switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -128,16 +134,16 @@ public class AlarmItem extends Fragment implements Serializable{
         else
             switchButton.setChecked(true);
 
-        defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
-
 
         return view;
     }
 
+
     @Override
+    //when another activity is called, this class is used to return data/intents from that activity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // get alarm set activity result
         if (requestCode == 1){
             if(resultCode == RESULT_OK){
                 Bundle args = data.getExtras();
@@ -214,6 +220,7 @@ public class AlarmItem extends Fragment implements Serializable{
 
     }
 
+    //sets current alarm again, some amount of minutes in the future
     public void snoozeAlarm(int minutes){
         if (alarmMin < (60-minutes)){
             alarmMin += minutes;
@@ -230,15 +237,11 @@ public class AlarmItem extends Fragment implements Serializable{
         constructAlarmInterface(getView());
     }
 
+    //sets the switch (enable/disable) off
     public void switchOff() {
         switchButton.setChecked(false);
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -257,6 +260,7 @@ public class AlarmItem extends Fragment implements Serializable{
         mListener = null;
     }
 
+    // returns all of the stored alarm info as a string
     public String retrieveInfo() {
         return "" + alarmHour + "/"
                 + alarmMin + "/"
@@ -283,6 +287,7 @@ public class AlarmItem extends Fragment implements Serializable{
         void onFragmentInteraction(Uri uri);
     }
 
+    //returns the alarms set date in a formatted string
     private String getFormattedDate() {
 
         String monthString;
@@ -319,6 +324,7 @@ public class AlarmItem extends Fragment implements Serializable{
 
     }
 
+    //returns the day of the week the alarm is set for
     private String getFormattedDay() {
 
         Calendar cal = Calendar.getInstance();
@@ -352,16 +358,7 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
 
-    //can expand this later to add functionality. Currently unsure how to access this function through alarm reciever
-    private void ringAlarm(){
-        playAlarmSong();
-    }
-
-    private void playAlarmSong(){
-        //Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        //ringtone.play();
-    }
-
+    //returns the repeat state(daily, weekly, etc.) of the alarmm
     public enum Repeat {
         NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE;
 
@@ -379,6 +376,7 @@ public class AlarmItem extends Fragment implements Serializable{
             return null;
         }
 
+        //turns a return state enum into an int
         public static int toInt(Repeat repeat) {
             switch(repeat) {
                 case NONE:
@@ -396,8 +394,11 @@ public class AlarmItem extends Fragment implements Serializable{
 
     }
 
+
+    // logic for scheduling and enabling an alarm with the current alarm values
     private void scheduleAlarm() {
-        //schedule alarm in alarm manager
+
+        //schedule alarm date
         Calendar alarmCal = Calendar.getInstance();
         alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
 
@@ -405,6 +406,7 @@ public class AlarmItem extends Fragment implements Serializable{
             return;
         }
 
+        //store necessary data( alarm name, ringtone, etc.) in alarm
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         intent.putExtra("ALARM_TAG", getTag());
         intent.putExtra("ALARM_NAME", alarmName);
@@ -412,6 +414,8 @@ public class AlarmItem extends Fragment implements Serializable{
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
+
+        //enable alarm based on the repeat setting of the alarm
         switch(alarmRepeat) {
             case NONE: aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
                 break;

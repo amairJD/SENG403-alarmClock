@@ -105,6 +105,7 @@ public class AlarmListFragment extends Fragment {
 
 
     @Override
+    //code for reloading alarms and states of app after ap is reopened
     public void onResume(){
         SharedPreferences prefs = getActivity()
                 .getSharedPreferences(ClockActivity.ALARMDATA_FILENAME, Context.MODE_PRIVATE);

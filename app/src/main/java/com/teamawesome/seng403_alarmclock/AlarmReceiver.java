@@ -11,6 +11,7 @@ import android.widget.Toast;
  *
  */
 
+//This class handles logic for what happens when an alarm goes off
 public class AlarmReceiver extends BroadcastReceiver {
 
     String alarmTag;
@@ -19,6 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
     @Override
+    //ths method is called by an alarm when it goes off. Gets necassar values from the alarm and then calls alarm coordinator to activate the alarm
     public void onReceive(Context context, Intent intent)
     {
         alarmTag = intent.getStringExtra("ALARM_TAG");
@@ -28,9 +30,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Toast.makeText(context, "Alarm Activated", Toast.LENGTH_LONG).show();
 
-        // the intent should have the ringtone stored in it using a specific tag such as
-        // TAG_RINGTONE. This is a simple way to be able to have different ringtones for the
-        // alarms.
 
         AlarmCoordinator.getInstance().activateAlarm(alarmTag, alarmName, alarmRingtone, context);
 
