@@ -35,9 +35,9 @@ public class AlarmCoordinator {
 
     public static AlarmCoordinator getInstance() { return instance; }
 
-    public void activateAlarm(String alarmTag, String alarmName, Context context) {
+    public void activateAlarm(String alarmTag, String alarmName, Uri alarmRingtone, Context context) {
 
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri alarmUri = alarmRingtone;
         if (alarmUri == null)
         {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

@@ -11,6 +11,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -61,7 +62,7 @@ public class AlarmItem extends Fragment implements Serializable{
 
     PendingIntent pendingIntent;
     AlarmManager aManager;
-    Ringtone r;
+    Uri ringtone;
     Uri defaultAlarm;
 
     private Switch switchButton;
@@ -162,6 +163,8 @@ public class AlarmItem extends Fragment implements Serializable{
         String name = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
         if (name != null && !name.isEmpty())
             alarmName = name;
+
+        ringtone = getArguments().getParcelable(AlarmSetActivity.ALARM_RINGTONE_TAG);
 
         alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
 
@@ -355,8 +358,8 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     private void playAlarmSong(){
-        Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        r.play();
+        //Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        //ringtone.play();
     }
 
     public enum Repeat {
@@ -405,6 +408,7 @@ public class AlarmItem extends Fragment implements Serializable{
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         intent.putExtra("ALARM_TAG", getTag());
         intent.putExtra("ALARM_NAME", alarmName);
+        intent.putExtra("ALARM_RINGTONE", (Parcelable)ringtone);
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
