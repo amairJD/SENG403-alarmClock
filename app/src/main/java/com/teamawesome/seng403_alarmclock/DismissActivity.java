@@ -11,22 +11,23 @@ import android.widget.TextView;
 
 
 /**
+ * Activity for showing the popup for dismissing/cancelling an alarm
+ *
  * Created by Eric Matteucci on 2017-02-27.
  */
 
-//activity for showng the alarm dismiss/cancel popup
+
 public class DismissActivity extends AppCompatActivity {
 
     String alarmTag;
     final int snoozeTime = 1;
 
     @Override
-    //when the dialogue is created
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_dismiss_alarm);
 
-        //readstore important variables
+        //read and store important variables
         alarmTag = getIntent().getStringExtra("ALARM_TAG");
         String alarmName = getIntent().getStringExtra("ALARM_NAME");
         final Intent intent = new Intent();
@@ -36,7 +37,6 @@ public class DismissActivity extends AppCompatActivity {
         //display alarm name
         TextView textView = (TextView) findViewById(R.id.DA_nameTextView);
         textView.setText(alarmName);
-
 
         //display dismiss bar
         SeekBar dismissBar = (SeekBar) findViewById(R.id.dismiss_seekBar);

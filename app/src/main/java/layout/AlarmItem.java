@@ -6,36 +6,24 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.graphics.Color;
 
+import com.teamawesome.seng403_alarmclock.AlarmReceiver;
+import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
+import com.teamawesome.seng403_alarmclock.R;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
-
-import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
-import com.teamawesome.seng403_alarmclock.ClockActivity;
-import com.teamawesome.seng403_alarmclock.AlarmReceiver;
-import com.teamawesome.seng403_alarmclock.R;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -91,8 +79,10 @@ public class AlarmItem extends Fragment implements Serializable{
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * logic for the visible representation of the alarm item (switches, buttons, etc.)
+     */
     @Override
-    // logic for the visible reresentation of the alarm item (switches, buttons, etc.)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm_item, container, false);
@@ -380,7 +370,6 @@ public class AlarmItem extends Fragment implements Serializable{
 
     }
 
-
     //returns the repeat state(daily, weekly, etc.) of the alarmm
     public enum Repeat {
         NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE;
@@ -413,8 +402,6 @@ public class AlarmItem extends Fragment implements Serializable{
             }
             return -1;
         }
-
-
     }
 
     /**

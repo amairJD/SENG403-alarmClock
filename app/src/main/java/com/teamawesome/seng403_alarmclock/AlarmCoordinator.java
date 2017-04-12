@@ -1,19 +1,12 @@
 package com.teamawesome.seng403_alarmclock;
 
-import android.content.Intent;
+import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import layout.AlarmItem;
 
 /**
  * Helps coordinate data between the various alarm actiities
