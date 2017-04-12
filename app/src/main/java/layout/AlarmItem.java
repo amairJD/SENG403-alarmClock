@@ -6,50 +6,41 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.graphics.Color;
 
+import com.teamawesome.seng403_alarmclock.AlarmReceiver;
+import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
+import com.teamawesome.seng403_alarmclock.R;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
-
-import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
-import com.teamawesome.seng403_alarmclock.ClockActivity;
-import com.teamawesome.seng403_alarmclock.AlarmReceiver;
-import com.teamawesome.seng403_alarmclock.R;
 
 import static android.app.Activity.RESULT_OK;
 
 /**
+ *
+ * This fragment contains the logic for an individual alarm.
+ *
  * Activities that contain this fragment must implement the
  * {@link AlarmItem.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
 public class AlarmItem extends Fragment implements Serializable{
 
-    /** NOTE:
-     *  See note in setID() regarding alarmID's
+    /**
+     * Alarm parameters
      */
-    private int alarmID;
-
     private int alarmHour;
     private int alarmMin;
     private int alarmYear;
@@ -68,6 +59,11 @@ public class AlarmItem extends Fragment implements Serializable{
 
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * When creating alarms, this function must be used and not the constructor
+     * @param data --bundle of data containing alarm parameters
+     * @return new AlarmItem
+     */
     public static AlarmItem newInstance(Intent data){
         AlarmItem alarmItem = new AlarmItem();
         Bundle args = data.getExtras();
@@ -98,29 +94,34 @@ public class AlarmItem extends Fragment implements Serializable{
         FloatingActionButton settingsButton = (FloatingActionButton) view.findViewById(R.id.AI_settingsButton);
         settingsButton.setOnClickListener( new View.OnClickListener() {
            public void onClick(View v) {
+               // If the alarm edit button is pressed, start AlarmSetActivity
+               // to receive new information in onActivityResult(...)
                Intent intent = new Intent(getActivity(), AlarmSetActivity.class);
                startActivityForResult(intent, 1);
            }
         });
 
+        /**
+         * Logic for on/off toggle on alarm
+         */
         switchButton = (Switch) view.findViewById(R.id.AI_switchButton);
         switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
+                    // Alarm button is on, schedule alarm
                     scheduleAlarm();
                     switchStatus = true;
                 }
                 else {
-
                     if (aManager != null)
-                        aManager.cancel(pendingIntent);
+                        aManager.cancel(pendingIntent); // cancel alarm if it was set
                     switchStatus = false;
-
                 }
             }
         });
 
+        //update switchButton
         if (!switchStatus){
             switchButton.setChecked(false);
         }
@@ -130,7 +131,6 @@ public class AlarmItem extends Fragment implements Serializable{
         defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
 
-
         return view;
     }
 
@@ -138,6 +138,9 @@ public class AlarmItem extends Fragment implements Serializable{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1){
+            /**
+             * If alarm was edited, this occurs on return from AlarmSetActivity
+             */
             if(resultCode == RESULT_OK){
                 Bundle args = data.getExtras();
                 this.getArguments().putAll(args);
@@ -145,7 +148,6 @@ public class AlarmItem extends Fragment implements Serializable{
                 constructAlarmInterface(getView());
             }
         }
-
     }
 
 
@@ -211,6 +213,10 @@ public class AlarmItem extends Fragment implements Serializable{
 
     }
 
+    /**
+     * Snoozes the current alarm
+     * @param minutes
+     */
     public void snoozeAlarm(int minutes){
         if (alarmMin < (60-minutes)){
             alarmMin += minutes;
@@ -220,13 +226,17 @@ public class AlarmItem extends Fragment implements Serializable{
             alarmMin = alarmMin + minutes - 60;
         }
         /**
-         * Note: their will be issues if tha alarm was set for exactly the end of the month or the year
+         * Note: their will be issues if the alarm was set for exactly the end of the month or the year
          * in that case, something like above should be implemented.
          */
 
+        // Reconstruct alarm interface
         constructAlarmInterface(getView());
     }
 
+    /**
+     * Switches off alarm
+     */
     public void switchOff() {
         switchButton.setChecked(false);
     }
@@ -254,6 +264,11 @@ public class AlarmItem extends Fragment implements Serializable{
         mListener = null;
     }
 
+    /**
+     * Returns information about alarm in a string, used in ClockActivity.java to store Alarm info
+     * in a file when closing.
+     * @return
+     */
     public String retrieveInfo() {
         return "" + alarmHour + "/"
                 + alarmMin + "/"
@@ -280,6 +295,10 @@ public class AlarmItem extends Fragment implements Serializable{
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * Returns the formatted date
+     * @return
+     */
     private String getFormattedDate() {
 
         String monthString;
@@ -316,6 +335,10 @@ public class AlarmItem extends Fragment implements Serializable{
 
     }
 
+    /**
+     * Returns formatted day
+     * @return
+     */
     private String getFormattedDay() {
 
         Calendar cal = Calendar.getInstance();
@@ -393,6 +416,9 @@ public class AlarmItem extends Fragment implements Serializable{
 
     }
 
+    /**
+     * Schedules alarm using alarmManager
+     */
     private void scheduleAlarm() {
         //schedule alarm in alarm manager
         Calendar alarmCal = Calendar.getInstance();

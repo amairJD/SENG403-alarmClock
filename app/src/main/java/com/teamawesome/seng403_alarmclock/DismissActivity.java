@@ -2,17 +2,13 @@ package com.teamawesome.seng403_alarmclock;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
-import layout.AlarmItem;
 
 /**
  * Created by Eric Matteucci on 2017-02-27.
