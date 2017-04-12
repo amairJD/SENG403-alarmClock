@@ -5,20 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
 import com.teamawesome.seng403_alarmclock.ClockActivity;
@@ -26,15 +20,11 @@ import com.teamawesome.seng403_alarmclock.R;
 
 import static android.app.Activity.RESULT_OK;
 
-/***
- *
- * IGNORE mostly for now, unless you absolutely need to edit.
- *
- */
-
-
-
 /**
+ *
+ * This fragment contains the logic for the list which contains the alarm items.
+ *
+ *
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link AlarmListFragment.OnFragmentInteractionListener} interface
@@ -43,12 +33,9 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class AlarmListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -66,7 +53,6 @@ public class AlarmListFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment AlarmListFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static AlarmListFragment newInstance(String param1, String param2) {
         AlarmListFragment fragment = new AlarmListFragment();
         Bundle args = new Bundle();
@@ -89,11 +75,13 @@ public class AlarmListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_alarm_list, container, false);
-        Button addAlarmButton =
-                (Button) rootView.findViewById(R.id.addAlarmButton);
+
+        /**
+         * Logic for add alarm button
+         */
+        Button addAlarmButton = (Button) rootView.findViewById(R.id.addAlarmButton);
         addAlarmButton.setOnClickListener( new View.OnClickListener() {
                 public void onClick(View v) {
-                    Log.i("TEST", "FAB_pressed");
                     Intent intent = new Intent(getActivity(), AlarmSetActivity.class);
                     startActivityForResult(intent, 1);
                 }
@@ -107,15 +95,15 @@ public class AlarmListFragment extends Fragment {
     @Override
     //code for reloading alarms and states of app after ap is reopened
     public void onResume(){
+        /**
+         * For persistent alarms, the alarm data is loaded from a file, parsed, then used to create
+         * as many alarmItems as needed
+         */
         SharedPreferences prefs = getActivity()
                 .getSharedPreferences(ClockActivity.ALARMDATA_FILENAME, Context.MODE_PRIVATE);
 
         String alarmData = prefs.getString(""+ClockActivity.alarmCounterForID, null);
         while (alarmData != null){
-            /**
-             * NOTE: Issues may occur regarding setting tags when we want to DELETE alarms,
-             * FIX LATER
-             */
 
             String[] parts = alarmData.split(" */ *");
 
@@ -143,9 +131,6 @@ public class AlarmListFragment extends Fragment {
 
             alarmData = prefs.getString(""+ClockActivity.alarmCounterForID, null);
         }
-
-
-
         super.onResume();
     }
 
@@ -153,6 +138,9 @@ public class AlarmListFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1){
+            /**
+             * If returning from AlarmSetActivity after adding an alarm, create the alarm.
+             */
             if(resultCode == RESULT_OK){
                 Fragment AlarmItem = layout.AlarmItem.newInstance(data);
                 LinearLayout alarmList = (LinearLayout) getActivity().findViewById(R.id.alarmItemList);
@@ -169,7 +157,6 @@ public class AlarmListFragment extends Fragment {
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -204,7 +191,6 @@ public class AlarmListFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

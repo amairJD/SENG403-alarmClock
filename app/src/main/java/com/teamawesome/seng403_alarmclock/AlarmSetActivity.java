@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -50,6 +52,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_set);
         returnIntent = new Intent();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     /**
@@ -92,7 +95,6 @@ public class AlarmSetActivity extends AppCompatActivity {
         }
 
 
-
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
         int seconds = 0;
@@ -107,7 +109,6 @@ public class AlarmSetActivity extends AppCompatActivity {
         {
             returnIntent.putExtra(ALARM_RINGTONE_TAG, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
         }
-
 
 
         /**
@@ -132,14 +133,13 @@ public class AlarmSetActivity extends AppCompatActivity {
         finish();
     }
 
-    //user cancled activity with the cancel button
+    //user cancelled activity with the cancel button
     public void cancelPressed(View view) {
        finish();
     }
 
-    //creates an activity which allows the user to choose a ringtone fro the alarm
-    public void chooseRingtonePressed(View view)
-    {
+    //creates an activity which allows the user to choose a ringtone from the alarm
+    public void chooseRingtonePressed(View view) {
 
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_RINGTONE);
@@ -151,8 +151,11 @@ public class AlarmSetActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }
 
+
+    /**
+     * Retrieves data from an activity started with startActivityforResult(..)
+     */
     @Override
-    //retrieves data from a caled activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (resultCode == RESULT_OK)

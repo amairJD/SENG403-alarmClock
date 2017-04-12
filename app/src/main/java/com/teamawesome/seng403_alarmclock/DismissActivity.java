@@ -2,35 +2,32 @@ package com.teamawesome.seng403_alarmclock;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
-import layout.AlarmItem;
 
 /**
+ * Activity for showing the popup for dismissing/cancelling an alarm
+ *
  * Created by Eric Matteucci on 2017-02-27.
  */
 
-//activity for showng the alarm dismiss/cancel popup
+
 public class DismissActivity extends AppCompatActivity {
 
     String alarmTag;
     final int snoozeTime = 1;
 
     @Override
-    //when the dialogue is created
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_dismiss_alarm);
 
-        //readstore important variables
+        //read and store important variables
         alarmTag = getIntent().getStringExtra("ALARM_TAG");
         String alarmName = getIntent().getStringExtra("ALARM_NAME");
         final Intent intent = new Intent();
@@ -40,7 +37,6 @@ public class DismissActivity extends AppCompatActivity {
         //display alarm name
         TextView textView = (TextView) findViewById(R.id.DA_nameTextView);
         textView.setText(alarmName);
-
 
         //display dismiss bar
         SeekBar dismissBar = (SeekBar) findViewById(R.id.dismiss_seekBar);

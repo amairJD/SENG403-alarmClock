@@ -1,42 +1,46 @@
 package com.teamawesome.seng403_alarmclock;
 
-import android.content.Intent;
+import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import layout.AlarmItem;
-
 /**
+ * Helps coordinate data between the various alarm actiities
+ *
  * Created by Eric Matteucci on 2017-02-12.
  */
 
-//a class for helping to coordinate data between the various alarm actiities
 public class AlarmCoordinator {
 
     private Map ringtoneMap = new HashMap<Integer, Ringtone>();
-
     Ringtone ringtone;
-
     private ClockActivity clockActivity;
 
-    private AlarmCoordinator() { }
+    private AlarmCoordinator() {
+        // Required empty constructor
+    }
 
-    public void setActivity(ClockActivity clockActivity) { this.clockActivity = clockActivity; }
+    public void setActivity(ClockActivity clockActivity) {
+        this.clockActivity = clockActivity;
+    }
 
     private static AlarmCoordinator instance = new AlarmCoordinator();
 
-    public static AlarmCoordinator getInstance() { return instance; }
+    public static AlarmCoordinator getInstance() {
+        return instance;
+    }
 
-    //this activity is responsible for activating the alarm based on the data passed to it from alarm reciever
+    /**
+     * Responsible for activating the alarm based on the data passed to it from alarm reciever
+     *
+     * @param alarmTag -- the id of the alarm
+     * @param alarmName -- the name of the alarm
+     * @param context
+     */
     public void activateAlarm(String alarmTag, String alarmName, Uri alarmRingtone, Context context) {
 
         //plays the specified ringtone, or a default one if none is specified)
@@ -58,15 +62,5 @@ public class AlarmCoordinator {
         ringtone.stop();
 
     }
-
-    //this method would be for choosing a snooze period before snoozing
-    public void setSnooze() {
-
-
-    }
-
-
-
-
 
 }
