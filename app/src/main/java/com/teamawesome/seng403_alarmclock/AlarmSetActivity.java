@@ -1,6 +1,8 @@
 package com.teamawesome.seng403_alarmclock;
 
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,15 +17,19 @@ import layout.AlarmItem;
 /**
  * This Activity is responsible ONLY for receiving user data and sending it to AlarmListFragment
  * Created by: Amair Javaid
+ *
+ * Handles the gathering of data needed to set the alarm from the user
  */
 public class AlarmSetActivity extends AppCompatActivity {
 
+     Intent returnIntent;
     /**
      * A TAG should be created for each type of data taken.
      * FOR EXAMPLE:
      *  - user has entered MEGA_ALARM as their alarm name
      *  - You must create a final public static String called "ALARM_NAME_TAG"
      *          (or something similar)
+     * These tags are used to pass user data back to the alarm
      */
     final public static String TEMP_TAG = "TEMP_TAG";
 
@@ -36,12 +42,14 @@ public class AlarmSetActivity extends AppCompatActivity {
     final public static String ALARM_NAME_TAG = "ALARM_NAME_TAG";
     final public static String ALARM_REPEAT_TAG = "ALARM_REPEAT_TAG";
     final public static String ALARM_SWITCH_STATUS = "ALARM_SWITCH_STAT_TAG";
+    final public static String ALARM_RINGTONE_TAG = "ALARM_RINGTONE_TAG";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_set);
+        returnIntent = new Intent();
     }
 
     /**
@@ -53,7 +61,6 @@ public class AlarmSetActivity extends AppCompatActivity {
      * @param view
      */
     public void okPressed(View view) {
-        Intent intent = new Intent();
 
         /**
          * Receive input.
@@ -94,28 +101,67 @@ public class AlarmSetActivity extends AppCompatActivity {
         int year = datePicker.getYear();
 
 
+        //Gets chosen ringtone or a default ringtone if no ringtone was chosen
+        Uri currentRingtone = returnIntent.getParcelableExtra(ALARM_RINGTONE_TAG);
+        if (currentRingtone == null)
+        {
+            returnIntent.putExtra(ALARM_RINGTONE_TAG, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
+        }
+
+
+
         /**
          * Store the variable inside the intent with it's corresponding TAG (see top of code).
          */
 
-        intent.putExtra(ALARM_HOUR_TAG, hour);
-        intent.putExtra(ALARM_MINUTE_TAG, minute);
-        intent.putExtra(ALARM_SECONDS_TAG, seconds);
-        intent.putExtra(ALARM_DAY_TAG, day);
-        intent.putExtra(ALARM_MONTH_TAG, month);
-        intent.putExtra(ALARM_YEAR_TAG, year);
-        intent.putExtra(ALARM_NAME_TAG, alarmName);
-        intent.putExtra(ALARM_REPEAT_TAG, repeat);
-        intent.putExtra(ALARM_SWITCH_STATUS, true);
+        returnIntent.putExtra(ALARM_HOUR_TAG, hour);
+        returnIntent.putExtra(ALARM_MINUTE_TAG, minute);
+        returnIntent.putExtra(ALARM_SECONDS_TAG, seconds);
+        returnIntent.putExtra(ALARM_DAY_TAG, day);
+        returnIntent.putExtra(ALARM_MONTH_TAG, month);
+        returnIntent.putExtra(ALARM_YEAR_TAG, year);
+        returnIntent.putExtra(ALARM_NAME_TAG, alarmName);
+        returnIntent.putExtra(ALARM_REPEAT_TAG, repeat);
+        returnIntent.putExtra(ALARM_SWITCH_STATUS, true);
+
 
         /**
          * Return the intent.
          */
-        setResult(RESULT_OK, intent);
+        setResult(RESULT_OK, returnIntent);
         finish();
     }
 
+    //user cancled activity with the cancel button
     public void cancelPressed(View view) {
        finish();
+    }
+
+    //creates an activity which allows the user to choose a ringtone fro the alarm
+    public void chooseRingtonePressed(View view)
+    {
+
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_RINGTONE);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Ringtone");
+
+        Uri currentRingtone =  RingtoneManager.getActualDefaultRingtoneUri(getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, currentRingtone);
+
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    //retrieves data from a caled activity
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == RESULT_OK)
+        {
+            //ringtone choice activity
+            if (requestCode ==1)
+            {
+                returnIntent.putExtra(ALARM_RINGTONE_TAG, data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI));
+            }
+        }
     }
 }

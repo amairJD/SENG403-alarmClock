@@ -93,6 +93,7 @@ public class AlarmListFragment extends Fragment {
 
 
     @Override
+    //code for reloading alarms and states of app after ap is reopened
     public void onResume(){
         /**
          * For persistent alarms, the alarm data is loaded from a file, parsed, then used to create

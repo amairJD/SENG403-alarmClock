@@ -1,17 +1,41 @@
 package com.teamawesome.seng403_alarmclock;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.Calendar;
 import android.net.Uri;
-import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.AnalogClock;
+import android.widget.Button;
+import android.widget.TextClock;
+import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +118,8 @@ public class ClockActivity extends AppCompatActivity
     }
 
     /**
-     * Method to show an alert for activated alarm. Called by AlarmCoordinator.java
+     * Method to show an alert for activated alarm, prompting for dismiss or snooze.
+     * Called by AlarmCoordinator.java
      * @param alarmTag -- the id of the alarm stored as a tag
      * @param alarmName -- the name of the alarm
      */

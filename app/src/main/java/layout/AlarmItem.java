@@ -6,31 +6,43 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.graphics.Color;
 
-import com.teamawesome.seng403_alarmclock.AlarmReceiver;
-import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
-import com.teamawesome.seng403_alarmclock.R;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
+
+import com.teamawesome.seng403_alarmclock.AlarmSetActivity;
+import com.teamawesome.seng403_alarmclock.ClockActivity;
+import com.teamawesome.seng403_alarmclock.AlarmReceiver;
+import com.teamawesome.seng403_alarmclock.R;
 
 import static android.app.Activity.RESULT_OK;
 
 /**
  *
- * This fragment contains the logic for an individual alarm.
+ * This fragment contains the logic for an individual alarm and is created as a fragment
+ * whenever a new alarm is created
  *
  * Activities that contain this fragment must implement the
  * {@link AlarmItem.OnFragmentInteractionListener} interface
@@ -52,8 +64,7 @@ public class AlarmItem extends Fragment implements Serializable{
 
     PendingIntent pendingIntent;
     AlarmManager aManager;
-    Ringtone r;
-    Uri defaultAlarm;
+    Uri ringtone;
 
     private Switch switchButton;
 
@@ -81,6 +92,7 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     @Override
+    // logic for the visible reresentation of the alarm item (switches, buttons, etc.)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm_item, container, false);
@@ -91,6 +103,8 @@ public class AlarmItem extends Fragment implements Serializable{
          * Logic for any alarmItem buttons must be placed here instead of using onClick in XML.
          * See below for example.
          */
+
+        // Edit/settings button logic
         FloatingActionButton settingsButton = (FloatingActionButton) view.findViewById(R.id.AI_settingsButton);
         settingsButton.setOnClickListener( new View.OnClickListener() {
            public void onClick(View v) {
@@ -128,12 +142,13 @@ public class AlarmItem extends Fragment implements Serializable{
         else
             switchButton.setChecked(true);
 
-        defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Ringtone r = RingtoneManager.getRingtone(getActivity(), defaultAlarm);
 
         return view;
     }
 
+    /**
+     * when another activity is called, this class is used to return data/intents from that activity
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -164,6 +179,8 @@ public class AlarmItem extends Fragment implements Serializable{
         String name = getArguments().getString(AlarmSetActivity.ALARM_NAME_TAG);
         if (name != null && !name.isEmpty())
             alarmName = name;
+
+        ringtone = getArguments().getParcelable(AlarmSetActivity.ALARM_RINGTONE_TAG);
 
         alarmRepeat = (Repeat) getArguments().get(AlarmSetActivity.ALARM_REPEAT_TAG);
 
@@ -204,8 +221,6 @@ public class AlarmItem extends Fragment implements Serializable{
                 break;
         }
 
-
-
         if (alarmName != null && !alarmName.isEmpty())
             alarmNameTextView.setText(alarmName);
 
@@ -214,7 +229,7 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     /**
-     * Snoozes the current alarm
+     * Snoozes the current alarm some amount of minutes in the future
      * @param minutes
      */
     public void snoozeAlarm(int minutes){
@@ -239,12 +254,6 @@ public class AlarmItem extends Fragment implements Serializable{
      */
     public void switchOff() {
         switchButton.setChecked(false);
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -296,7 +305,7 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     /**
-     * Returns the formatted date
+     * returns the alarms set date in a formatted string
      * @return
      */
     private String getFormattedDate() {
@@ -336,7 +345,7 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     /**
-     * Returns formatted day
+     * Returns the day of the week the alarm is set for
      * @return
      */
     private String getFormattedDay() {
@@ -372,16 +381,7 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
 
-    //can expand this later to add functionality. Currently unsure how to access this function through alarm reciever
-    private void ringAlarm(){
-        playAlarmSong();
-    }
-
-    private void playAlarmSong(){
-        Uri defaultAlarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        r.play();
-    }
-
+    //returns the repeat state(daily, weekly, etc.) of the alarmm
     public enum Repeat {
         NONE, DAILY, WEEKLY, TEST_EVERY_MINUTE;
 
@@ -399,6 +399,7 @@ public class AlarmItem extends Fragment implements Serializable{
             return null;
         }
 
+        //turns a return state enum into an int
         public static int toInt(Repeat repeat) {
             switch(repeat) {
                 case NONE:
@@ -417,10 +418,11 @@ public class AlarmItem extends Fragment implements Serializable{
     }
 
     /**
-     * Schedules alarm using alarmManager
+     * Schedules alarm with the current alarm values using alarmManager
      */
     private void scheduleAlarm() {
-        //schedule alarm in alarm manager
+
+        //schedule alarm date
         Calendar alarmCal = Calendar.getInstance();
         alarmCal.set(alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, 0);
 
@@ -428,12 +430,16 @@ public class AlarmItem extends Fragment implements Serializable{
             return;
         }
 
+        //store necessary data( alarm name, ringtone, etc.) in alarm
         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
         intent.putExtra("ALARM_TAG", getTag());
         intent.putExtra("ALARM_NAME", alarmName);
+        intent.putExtra("ALARM_RINGTONE", (Parcelable)ringtone);
         pendingIntent = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(getTag()),
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         aManager = (AlarmManager)getActivity().getSystemService(Activity.ALARM_SERVICE);
+
+        //enable alarm based on the repeat setting of the alarm
         switch(alarmRepeat) {
             case NONE: aManager.set(AlarmManager.RTC_WAKEUP, alarmCal.getTimeInMillis(), pendingIntent);
                 break;
