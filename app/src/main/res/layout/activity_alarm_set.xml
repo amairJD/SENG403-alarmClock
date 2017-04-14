@@ -35,7 +35,8 @@ tools:context="com.teamawesome.seng403_alarmclock.AlarmSetActivity">
                     android:textColorHint="#000"
                     android:layout_gravity="center"
                     android:layout_marginTop="30sp"
-                    android:id="@+id/AS_nameEditText"/>
+                    android:id="@+id/AS_nameEditText"
+                    android:textColorHighlight="#FFFFFF"/>
 
                 <TimePicker
                     android:id="@+id/AS_timePicker"
