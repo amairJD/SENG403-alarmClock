@@ -1,52 +1,23 @@
 package com.teamawesome.seng403_alarmclock;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.Calendar;
 import android.net.Uri;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.AnalogClock;
-import android.widget.Button;
-import android.widget.TextClock;
-import android.widget.TextView;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import layout.AlarmItem;
 import layout.AlarmListFragment;
 import layout.ClockFragment;
-
-
-/***
- * IGNORE mostly for now, unless you absolutely need to edit.
- */
 
 
 public class ClockActivity extends AppCompatActivity
@@ -60,7 +31,6 @@ public class ClockActivity extends AppCompatActivity
      * Whenever a new Alarm is created, this global int is assigned to it as a ID and the Alarm is
      * now known as Alarm #(ID).
      * numberOfAlarms is then incremented.
-     * This happens in AlarmListFragment, but is written here for reference.
      */
     public static int alarmCounterForID = 0;
     public static int numberOfAlarms = 0;
@@ -95,15 +65,16 @@ public class ClockActivity extends AppCompatActivity
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         AlarmCoordinator.getInstance().setActivity(this);
-
-
-
     }
 
     @Override
     public void onStop(){
         super.onStop();
 
+        /**
+         * The following bit of code ensures persistent alarms, i.e alarms will save on exit.
+         * This functionality is attained through the use of sharedpreferences
+         */
         List<Fragment> allFrags = getSupportFragmentManager().getFragments();
         List<AlarmItem> allAlarmItems = new ArrayList<>();
 
@@ -122,6 +93,48 @@ public class ClockActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Method to show an alert for activated alarm, prompting for dismiss or snooze.
+     * Called by AlarmCoordinator.java
+     * @param alarmTag -- the id of the alarm stored as a tag
+     * @param alarmName -- the name of the alarm
+     */
+    public void showAlert(String alarmTag, String alarmName) {
+        Intent myIntent = new Intent(this, DismissActivity.class);
+        myIntent.putExtra("ALARM_TAG", alarmTag);
+        myIntent.putExtra("ALARM_NAME", alarmName);
+        startActivityForResult(myIntent, 10);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /**
+         * Returning from DismissActivity after alarm was activated
+         */
+        if (requestCode == 10){
+            if(resultCode == RESULT_OK){
+
+                /**
+                 * Find alarm that responds with alarm tag, and snooze it by int 'snoozeTime' unless
+                 * snoozeTime = 0. In that case, no snooze was set, and turn off the alarm.
+                 */
+                String alarmTag = data.getExtras().getString("ALARM_TAG");
+                int snoozeTime = data.getExtras().getInt("SNOOZE_TIME");
+
+                Fragment alarmFrag = getSupportFragmentManager().findFragmentByTag(alarmTag);
+
+                if (alarmFrag instanceof AlarmItem){
+                    AlarmItem currentAlarm = (AlarmItem)alarmFrag;
+                    if (snoozeTime != 0)
+                        currentAlarm.snoozeAlarm(snoozeTime);
+                    else
+                        currentAlarm.switchOff();
+                }
+            }
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -182,41 +195,5 @@ public class ClockActivity extends AppCompatActivity
             return null;
         }
     }
-
-    public void showAlert(String alarmTag, String alarmName) {
-        Intent myIntent = new Intent(this, DismissActivity.class);
-        myIntent.putExtra("ALARM_TAG", alarmTag);
-        myIntent.putExtra("ALARM_NAME", alarmName);
-        startActivityForResult(myIntent, 10);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10){
-            if(resultCode == RESULT_OK){
-                /**
-                 * Returning from DismissActivity after alarm was activated
-                 */
-                String alarmTag = data.getExtras().getString("ALARM_TAG");
-                int snoozeTime = data.getExtras().getInt("SNOOZE_TIME");
-
-                Fragment alarmFrag = getSupportFragmentManager().findFragmentByTag(alarmTag);
-
-                if (alarmFrag instanceof AlarmItem){
-                    AlarmItem currentAlarm = (AlarmItem)alarmFrag;
-                    if (snoozeTime != 0)
-                        currentAlarm.snoozeAlarm(snoozeTime);
-                    else
-                        currentAlarm.switchOff();
-                }
-
-
-            }
-        }
-
-    }
-
-// this should merge!!
 
 }

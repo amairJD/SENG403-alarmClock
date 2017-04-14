@@ -8,32 +8,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AnalogClock;
-import android.widget.Button;
 import android.widget.TextClock;
 
 import com.teamawesome.seng403_alarmclock.R;
 
-
-/***
- *
- * IGNORE mostly for now, unless you absolutely need to edit.
- *
- */
-
-
-
-
 /**
+ *
+ * This fragment contains the logic for the page that displays both the digital and analog clock.
+ *
+ *
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link ClockFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ClockFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * Displays the current time in digital or analogue format
  */
 public class ClockFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -42,7 +35,6 @@ public class ClockFragment extends Fragment {
     private static TextClock digital;
     private static AnalogClock analogue;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 

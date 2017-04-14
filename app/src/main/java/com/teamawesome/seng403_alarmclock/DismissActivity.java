@@ -2,21 +2,20 @@ package com.teamawesome.seng403_alarmclock;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
-import layout.AlarmItem;
 
 /**
+ * Activity for showing the popup for dismissing/cancelling an alarm
+ *
  * Created by Eric Matteucci on 2017-02-27.
  */
+
 
 public class DismissActivity extends AppCompatActivity {
 
@@ -28,17 +27,21 @@ public class DismissActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_dismiss_alarm);
 
+        //read and store important variables
         alarmTag = getIntent().getStringExtra("ALARM_TAG");
         String alarmName = getIntent().getStringExtra("ALARM_NAME");
         final Intent intent = new Intent();
         intent.putExtra("ALARM_TAG", alarmTag);
         intent.putExtra("SNOOZE_TIME", 0);
 
+        //display alarm name
         TextView textView = (TextView) findViewById(R.id.DA_nameTextView);
         textView.setText(alarmName);
 
+        //display dismiss bar
         SeekBar dismissBar = (SeekBar) findViewById(R.id.dismiss_seekBar);
         dismissBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            //methods for the dismiss bar
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
@@ -61,8 +64,10 @@ public class DismissActivity extends AppCompatActivity {
             }
         });
 
+        //display snooze button
         Button snoozeButton = (Button) findViewById(R.id.snooze_button);
 
+        //what happens when snooze is pressed
         snoozeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

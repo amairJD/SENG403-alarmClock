@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context="layout.AlarmListFragment"
     android:id="@+id/alarmFrame"
+
     >
 
     <RelativeLayout
@@ -13,7 +14,10 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/scrollViewList"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -22,25 +26,17 @@
                 android:id="@+id/alarmItemList"
                 >
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="+ NEW ALARM"
+                    android:background="@color/colorAccent"
+                    android:layout_margin="10dp"
+                    android:id="@+id/addAlarmButton"
+                    >
+                </Button>
+
             </LinearLayout>
         </ScrollView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:fabSize="auto"
-            android:src="@drawable/ic_add_24dp"
-            android:id="@+id/addAlarmButton"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="13dp"
-            android:layout_marginEnd="13dp"
-            android:layout_marginBottom="14dp"
-            />
-
-
     </RelativeLayout>
-
 </FrameLayout>
